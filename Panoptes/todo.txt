@@ -1,0 +1,11 @@
+[X] action listener for time dropdowns to update selection
+[ ] delete/reset selected blocks
+[X] color different selection blocks
+[X] visual deliniation at 1hour intervals
+[X] horizontal axis does not scroll with block panel scrollpane
+[X] 12hr formatting
+[X] auto-append *.XML extension to save files if not specified
+[X] save file title in window titlebar
+[X] auto-fill export filename with saved filename
+[X] do not export blank/empty blocks
+[X] SOW codes are not exporting with projects

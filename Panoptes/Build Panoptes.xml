@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="Compile JAR" name="Compile Panoptes">
+    <target name="Compile JAR">
+        <jar destfile="Panoptes.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="com.omnicrola.panoptes.Panoptes"/>
+            	<attribute name="SplashScreen-Image" value="resources/panoptesSplash.png" />
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ poi-3.10-FINAL-20140208.jar poi-ooxml-3.10-FINAL-20140208.jar poi-ooxml-schemas-3.10-FINAL-20140208.jar xbean.jar dom4j-1.6.1.jar "/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib\poi-3.10-FINAL" includes="poi-3.10-FINAL-20140208.jar"/>
+            <zipfileset dir="lib\poi-3.10-FINAL" includes="poi-ooxml-3.10-FINAL-20140208.jar"/>
+            <zipfileset dir="lib\poi-3.10-FINAL" includes="poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
+            <zipfileset dir="lib" includes="xbean.jar"/>
+            <zipfileset dir="lib" includes="dom4j-1.6.1.jar"/>
+        </jar>
+    </target>
+</project>
