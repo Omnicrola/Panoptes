@@ -39,7 +39,7 @@ import com.omnicrola.util.ConstructorParameter;
 
 public class TopPanelFactory {
 
-	private static final long TWO_WEEKS_IN_MILLIS = 2 * 7 * 24 * 60 * 60 * 1000;
+	private static final long ONE_WEEK_IN_MILLIS = 7 * 24 * 60 * 60 * 1000 - 1;
 	@ConstructorParameter("settings")
 	private final AppSettings settings;
 	@ConstructorParameter("autoCompletePopupFactory")
@@ -65,7 +65,6 @@ public class TopPanelFactory {
 		JComboBox<String> dayComboBox = createComboBox(this.settings.getDays());
 		JComboBox<String> startComboBox = createComboBox(this.settings.getTimeIncrements());
 		JComboBox<String> endComboBox = createComboBox(this.settings.getTimeIncrements());
-		endComboBox.setSelectedIndex(1);
 		JTextField projectField = buildProjectField(controller);
 		JTextField cardField = buildCardField(controller);
 		JComboBox<String> roleField = createComboBox(this.settings.getRoles());
@@ -142,7 +141,7 @@ public class TopPanelFactory {
 	}
 
 	private DateWrapper[] getWeekEndingDays() {
-		long twoWeeksFromNow = System.currentTimeMillis() + TWO_WEEKS_IN_MILLIS;
+		long twoWeeksFromNow = System.currentTimeMillis() + ONE_WEEK_IN_MILLIS;
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.MONTH, -3);
