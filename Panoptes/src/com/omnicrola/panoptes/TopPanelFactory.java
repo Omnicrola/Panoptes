@@ -1,5 +1,8 @@
 package com.omnicrola.panoptes;
 
+import static com.omnicrola.panoptes.ui.SwingComponentFactory.createComboBox;
+import static com.omnicrola.panoptes.ui.SwingComponentFactory.createLabel;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -17,7 +20,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import com.omnicrola.panoptes.control.DataController;
@@ -31,6 +33,7 @@ import com.omnicrola.panoptes.ui.autocomplete.CardNumberProvider;
 import com.omnicrola.panoptes.ui.autocomplete.ProjectOptionProvider;
 import com.omnicrola.panoptes.ui.listener.AddTimeblockListener;
 import com.omnicrola.panoptes.ui.listener.ComboBoxUpdateObserver;
+import com.omnicrola.panoptes.ui.listener.TextHighlightingFocusListener;
 import com.omnicrola.panoptes.ui.listener.WeekEndingComboBoxDataObserver;
 import com.omnicrola.util.ConstructorParameter;
 
@@ -47,28 +50,6 @@ public class TopPanelFactory {
 		this.autoCompleteFactory = autoCompleteFactory;
 	}
 
-	private JTextField buildCardField(DataController dataController) {
-		JTextField cardField = new JTextField("", 10);
-		CardNumberProvider cardNumberProvider = new CardNumberProvider(dataController);
-		dataController.addObserver(cardNumberProvider);
-		this.autoCompleteFactory.addAutoComplete(cardField, cardNumberProvider, 3);
-		return cardField;
-	}
-
-	private GridBagConstraints buildConstraints(int gridX, int gridY) {
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = gridX;
-		constraints.gridy = gridY;
-		constraints.insets = new Insets(2, 2, 2, 2);
-		return constraints;
-	}
-
-	private JTextField buildProjectField(DataController controller) {
-		JTextField projectField = new JTextField("", 10);
-		this.autoCompleteFactory.addAutoComplete(projectField, new ProjectOptionProvider(controller), 3);
-		return projectField;
-	}
-
 	public TopPanel buildTopPanel(DataController controller, DisplayBlockModelPresenter displayModelPresenter) {
 
 		JLabel weekEndingLabel = createLabel("Week Ending:", 100);
@@ -80,14 +61,14 @@ public class TopPanelFactory {
 		JLabel roleLabel = createLabel("Role:", 50);
 
 		DateWrapper[] weekEndingDays = getWeekEndingDays();
-		JComboBox<DateWrapper> weekEndingComboBox = new JComboBox<DateWrapper>(weekEndingDays);
-		JComboBox<String> dayComboBox = new JComboBox<String>(this.settings.getDays());
-		JComboBox<String> startComboBox = new JComboBox<String>(this.settings.getTimeIncrements());
-		JComboBox<String> endComboBox = new JComboBox<String>(this.settings.getTimeIncrements());
+		JComboBox<DateWrapper> weekEndingComboBox = createComboBox(weekEndingDays);
+		JComboBox<String> dayComboBox = createComboBox(this.settings.getDays());
+		JComboBox<String> startComboBox = createComboBox(this.settings.getTimeIncrements());
+		JComboBox<String> endComboBox = createComboBox(this.settings.getTimeIncrements());
 		endComboBox.setSelectedIndex(1);
 		JTextField projectField = buildProjectField(controller);
 		JTextField cardField = buildCardField(controller);
-		JComboBox<String> roleField = new JComboBox<String>(this.settings.getRoles());
+		JComboBox<String> roleField = createComboBox(this.settings.getRoles());
 		JButton addButton = new JButton("Add");
 
 		TopPanelInputSet topPanelInputSet = new TopPanelInputSet(displayModelPresenter, controller, weekEndingComboBox,
@@ -130,10 +111,28 @@ public class TopPanelFactory {
 		return topPanel;
 	}
 
-	private JLabel createLabel(String labelText, int width) {
-		JLabel dayLabel = new JLabel(labelText, SwingConstants.RIGHT);
-		dayLabel.setPreferredSize(new Dimension(width, 20));
-		return dayLabel;
+	private JTextField buildCardField(DataController dataController) {
+		JTextField cardField = new JTextField("", 10);
+		cardField.addFocusListener(new TextHighlightingFocusListener(cardField));
+		CardNumberProvider cardNumberProvider = new CardNumberProvider(dataController);
+		dataController.addObserver(cardNumberProvider);
+		this.autoCompleteFactory.addAutoComplete(cardField, cardNumberProvider, 3);
+		return cardField;
+	}
+
+	private GridBagConstraints buildConstraints(int gridX, int gridY) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = gridX;
+		constraints.gridy = gridY;
+		constraints.insets = new Insets(2, 2, 2, 2);
+		return constraints;
+	}
+
+	private JTextField buildProjectField(DataController controller) {
+		JTextField projectField = new JTextField("", 10);
+		projectField.addFocusListener(new TextHighlightingFocusListener(projectField));
+		this.autoCompleteFactory.addAutoComplete(projectField, new ProjectOptionProvider(controller), 3);
+		return projectField;
 	}
 
 	private void findFriday(GregorianCalendar calendar) {

@@ -310,6 +310,14 @@ public abstract class EnhancedTestCase {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T reflectFieldFromObject(Class<T> expectedType, String fieldname, Object targetObject)
+			throws Exception {
+		Field field = targetObject.getClass().getDeclaredField(fieldname);
+		field.setAccessible(true);
+		return (T) field.get(targetObject);
+	}
+
 	private ArrayList<Object> mocks = new ArrayList<Object>();
 	private final ArrayList<Class<?>> staticMocks = new ArrayList<Class<?>>();
 	private boolean stopReplayWasCalled;
@@ -354,7 +362,7 @@ public abstract class EnhancedTestCase {
 	}
 
 	private void wipeField(Object childObject, Field targetField) throws IllegalArgumentException,
-			IllegalAccessException {
+	IllegalAccessException {
 		if (!targetField.getType().isPrimitive()) {
 			targetField.setAccessible(true);
 			targetField.set(childObject, null);

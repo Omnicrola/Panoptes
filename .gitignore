@@ -3,6 +3,11 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# eclipse files
+.settings
+.metadata
+.recommenders
+
 # Package Files #
 Panoptes.jar
 *.war
