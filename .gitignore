@@ -9,7 +9,6 @@
 .recommenders
 
 # Package Files #
-Panoptes.jar
 *.war
 *.ear
 
