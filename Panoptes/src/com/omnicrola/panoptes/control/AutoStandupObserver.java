@@ -4,11 +4,15 @@ import java.util.Optional;
 
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.settings.IReadAppPreferences;
 import com.omnicrola.util.ConstructorParameter;
 
 public class AutoStandupObserver implements IControlObserver {
 
 	private static final String STANDUP_CARD_NUMBER = "STU";
+
+	@ConstructorParameter("preferences")
+	private IReadAppPreferences appPreferences;
 	@ConstructorParameter("dataController")
 	private DataController dataController;
 	@ConstructorParameter("dayIndex")
@@ -17,7 +21,10 @@ public class AutoStandupObserver implements IControlObserver {
 	private int blockIndex;
 	private int nextConsecutiveBlockIndex;
 
-	public AutoStandupObserver(DataController dataController, int dayIndex, int blockIndex) {
+	public AutoStandupObserver(IReadAppPreferences appPreferences, DataController dataController, int dayIndex,
+			int blockIndex) {
+
+		this.appPreferences = appPreferences;
 		this.dataController = dataController;
 		this.dayIndex = dayIndex;
 		this.blockIndex = blockIndex;
@@ -30,9 +37,11 @@ public class AutoStandupObserver implements IControlObserver {
 
 	@Override
 	public void timeblockSetChanged(TimeblockSet updateTimeblockSet) {
-		Optional<IReadTimeblock> targetBlock = findTargetBlock(updateTimeblockSet);
-		if (targetBlock.isPresent()) {
-			addStandupBlock(targetBlock);
+		if (this.appPreferences.autoStandup()) {
+			Optional<IReadTimeblock> targetBlock = findTargetBlock(updateTimeblockSet);
+			if (targetBlock.isPresent()) {
+				addStandupBlock(targetBlock);
+			}
 		}
 	}
 

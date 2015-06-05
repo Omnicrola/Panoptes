@@ -56,11 +56,12 @@ public class SettingsFileManager {
 		return appPreferences;
 	}
 
-	public void save(List<WorkStatement> workStatements, PersonalData personalData) {
+	public void save(List<WorkStatement> workStatements, PersonalData personalData, AppPreferences appPreferences) {
 		File settingsSaveLocation = this.settings.getSettingsSaveLocation();
 		XmlSettings xmlSettings = new XmlSettings();
 		xmlSettings.statements = workStatements;
 		xmlSettings.personalData = personalData;
+		xmlSettings.preferences = appPreferences;
 
 		try {
 			this.xmlFileReader.saveObject(xmlSettings, settingsSaveLocation);

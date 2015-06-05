@@ -21,6 +21,7 @@ import com.omnicrola.panoptes.data.MainDataModel;
 import com.omnicrola.panoptes.data.MainDataModelFactory;
 import com.omnicrola.panoptes.data.fileIO.xml.SettingsFileManager;
 import com.omnicrola.panoptes.data.fileIO.xml.XmlSettings;
+import com.omnicrola.panoptes.settings.AppPreferences;
 import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.testing.util.EnhancedTestCase;
 
@@ -71,6 +72,7 @@ public class BagOfFactoriesTest extends EnhancedTestCase {
 		this.xmlSettings = new XmlSettings();
 		this.xmlSettings.personalData = this.expectedPersonalData;
 		this.xmlSettings.statements = new ArrayList<>();
+		this.xmlSettings.preferences = useMock(AppPreferences.class);
 	}
 
 	private BagOfFactories createBagOfFactoriesForTesting() {
@@ -85,7 +87,8 @@ public class BagOfFactoriesTest extends EnhancedTestCase {
 		expect(this.mockDataControllerFactory.build(this.mockDataModel)).andReturn(this.mockDataController);
 		this.mockDataController.addObserver(capture(this.observerCapture));
 		expectLastCall().anyTimes();
-		this.mockDataController.setPersonalData(this.expectedPersonalData);
+		this.mockDataModel.setPersonalData(this.expectedPersonalData);
+		this.mockDataModel.setPreferences(this.xmlSettings.preferences);
 		expectLastCall().once();
 		this.mockShutdownFactory.buildAndAttachShutdownToRuntime(this.settingsFileManager, this.mockDataModel);
 		expectLastCall().once();
@@ -104,6 +107,8 @@ public class BagOfFactoriesTest extends EnhancedTestCase {
 
 	private void checkStandupObserver(int expectedDayIndex, IControlObserver controlObserver) {
 		AutoStandupObserver observer = assertIsOfTypeAndGet(AutoStandupObserver.class, controlObserver);
+		assertConstructionParameterEquals("dataController", this.mockDataController, observer);
+		assertConstructionParameterEquals("preferences", this.xmlSettings.preferences, observer);
 		assertConstructionParameterEquals("dayIndex", expectedDayIndex, observer);
 		assertConstructionParameterEquals("blockIndex", 15, observer);
 	}

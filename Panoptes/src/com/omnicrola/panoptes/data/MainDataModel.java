@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.omnicrola.panoptes.settings.AppPreferences;
 import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.settings.PersonalData;
 
@@ -17,6 +18,7 @@ public class MainDataModel {
 	private PersonalData personalData;
 	private String exportFilename;
 	private DateWrapper weekEnding;
+	private AppPreferences preferences;
 
 	public MainDataModel(ArrayList<List<TimeBlock>> timeBlocks, List<WorkStatement> workStatementList,
 			AppSettings settings) {
@@ -94,4 +96,11 @@ public class MainDataModel {
 		this.weekEnding = weekEnding;
 	}
 
+	public void setPreferences(AppPreferences preferences) {
+		this.preferences = preferences;
+	}
+
+	public AppPreferences getPreferences() {
+		return this.preferences;
+	}
 }

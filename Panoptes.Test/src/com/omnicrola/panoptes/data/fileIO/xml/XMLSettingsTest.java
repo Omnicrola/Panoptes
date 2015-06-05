@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.junit.Test;
 
+import com.omnicrola.panoptes.settings.AppPreferences;
+import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.testing.util.EnhancedTestCase;
 
 public class XMLSettingsTest extends EnhancedTestCase {
@@ -22,5 +24,14 @@ public class XMLSettingsTest extends EnhancedTestCase {
 		assertXmlElementOnField(XmlSettings.class, "personalData", "PersonalInfo");
 		assertXmlElementOnField(XmlSettings.class, "statements", "WorkStatement");
 		assertXmlElementOnField(XmlSettings.class, "preferences", "Preferences");
+	}
+
+	@Test
+	public void testDefaults() throws Exception {
+		XmlSettings xmlSettings = new XmlSettings();
+		assertIsOfTypeAndGet(PersonalData.class, xmlSettings.personalData);
+		assertIsOfTypeAndGet(AppPreferences.class, xmlSettings.preferences);
+		assertNotNull(xmlSettings.statements);
+		assertEquals(0, xmlSettings.statements.size());
 	}
 }

@@ -1,13 +1,18 @@
 package com.omnicrola.panoptes.data.fileIO.xml;
 
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.easymock.Capture;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,6 +43,28 @@ public class SettingsFileManagerTest extends EnhancedTestCase {
 		startReplay();
 		assertConstructionParamSame("settings", this.appSettings, this.settingsFileManager);
 		assertConstructionParamSame("fileAdapter", this.fileAdapter, this.settingsFileManager);
+	}
+
+	@Test
+	public void testSaveSettings_NormalCase() throws Exception {
+		File mockFile = useMock(File.class);
+		expect(this.appSettings.getSettingsSaveLocation()).andReturn(mockFile);
+
+		List<WorkStatement> expectedStatements = Collections.unmodifiableList(new ArrayList<>());
+		PersonalData expectedPersonalData = useMock(PersonalData.class);
+		AppPreferences expectedPreferences = useMock(AppPreferences.class);
+
+		Capture<XmlSettings> settingsCapture = Capture.newInstance();
+		this.fileAdapter.saveObject(capture(settingsCapture), eq(mockFile));
+		startReplay();
+
+		this.settingsFileManager.save(expectedStatements, expectedPersonalData, expectedPreferences);
+
+		stopReplay();
+		XmlSettings actualSettings = settingsCapture.getValue();
+		assertSame(expectedPreferences, actualSettings.preferences);
+		assertSame(expectedPersonalData, actualSettings.personalData);
+		assertSame(expectedStatements, actualSettings.statements);
 	}
 
 	@Test

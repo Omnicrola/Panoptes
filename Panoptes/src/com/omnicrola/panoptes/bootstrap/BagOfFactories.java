@@ -7,6 +7,7 @@ import com.omnicrola.panoptes.data.MainDataModel;
 import com.omnicrola.panoptes.data.MainDataModelFactory;
 import com.omnicrola.panoptes.data.fileIO.xml.SettingsFileManager;
 import com.omnicrola.panoptes.data.fileIO.xml.XmlSettings;
+import com.omnicrola.panoptes.settings.IReadAppPreferences;
 import com.omnicrola.util.ConstructorParameter;
 
 public class BagOfFactories {
@@ -38,25 +39,27 @@ public class BagOfFactories {
 		XmlSettings settings = settingsFileManagerLoader.load();
 
 		MainDataModel mainDataModel = this.mainDataModelFactory.build(settings.statements);
-		DataController dataController = buildDataController(mainDataModel);
-		dataController.setPersonalData(settings.personalData);
+		mainDataModel.setPersonalData(settings.personalData);
+		mainDataModel.setPreferences(settings.preferences);
+		DataController dataController = buildDataController(mainDataModel, settings.preferences);
 
 		this.shutdownSequenceFactory.buildAndAttachShutdownToRuntime(settingsFileManagerLoader, mainDataModel);
 		return dataController;
 	}
 
-	private DataController buildDataController(MainDataModel mainDataModel) {
+	private DataController buildDataController(MainDataModel mainDataModel, IReadAppPreferences preferences) {
 		DataController dataController = this.dataControllerFactory.build(mainDataModel);
-		dataController.addObserver(createStandupObserver(dataController, 2));
-		dataController.addObserver(createStandupObserver(dataController, 3));
-		dataController.addObserver(createStandupObserver(dataController, 4));
-		dataController.addObserver(createStandupObserver(dataController, 5));
-		dataController.addObserver(createStandupObserver(dataController, 6));
+		dataController.addObserver(createStandupObserver(preferences, dataController, 2));
+		dataController.addObserver(createStandupObserver(preferences, dataController, 3));
+		dataController.addObserver(createStandupObserver(preferences, dataController, 4));
+		dataController.addObserver(createStandupObserver(preferences, dataController, 5));
+		dataController.addObserver(createStandupObserver(preferences, dataController, 6));
 		return dataController;
 	}
 
-	private IControlObserver createStandupObserver(DataController dataController, int dayIndex) {
-		return new AutoStandupObserver(dataController, dayIndex, NINE_FOURTY_FIVE);
+	private IControlObserver createStandupObserver(IReadAppPreferences preferences, DataController dataController,
+			int dayIndex) {
+		return new AutoStandupObserver(preferences, dataController, dayIndex, NINE_FOURTY_FIVE);
 	}
 
 	public MainWindowFactory getMainWindowFactory() {

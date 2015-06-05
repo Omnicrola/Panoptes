@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.settings.IReadAppPreferences;
 import com.omnicrola.testing.util.EnhancedTestCase;
 
 public class AutoStandupObserverTest extends EnhancedTestCase {
@@ -25,15 +26,17 @@ public class AutoStandupObserverTest extends EnhancedTestCase {
 	private int expectedDay;
 	private int expectedTimeToWatch;
 	private int expectedTimeToAddStandup;
+	private IReadAppPreferences mockPreferences;
 
 	@Before
 	public void initializeMocks() {
-		this.expectedDay = 5;// randI();
-		this.expectedTimeToWatch = 100;// randI();
+		this.expectedDay = randI();
+		this.expectedTimeToWatch = randI();
 		this.expectedTimeToAddStandup = this.expectedTimeToWatch + 1;
 
 		this.mockDataController = useMock(DataController.class);
 		this.mockTimeblockOnStandup = useMock(IReadTimeblock.class);
+		this.mockPreferences = useMock(IReadAppPreferences.class);
 
 		this.timeDataBeforeStandup = new TimeData("my project", "not standup", "leading dog");
 	}
@@ -45,21 +48,19 @@ public class AutoStandupObserverTest extends EnhancedTestCase {
 
 	@Test
 	public void testConstructorParam() throws Exception {
-		DataController mockDataController = useMock(DataController.class);
 		startReplay();
-		int expectedDayIndex = randI();
-		int expectedBlockIndex = randI();
-		AutoStandupObserver autoStandupObserver = new AutoStandupObserver(mockDataController, expectedDayIndex,
-				expectedBlockIndex);
-		assertConstructionParamSame("dataController", mockDataController, autoStandupObserver);
-		assertConstructionParameterEquals("dayIndex", expectedDayIndex, autoStandupObserver);
-		assertConstructionParameterEquals("blockIndex", expectedBlockIndex, autoStandupObserver);
+		AutoStandupObserver autoStandupObserver = createObserverForTesting();
+		assertConstructionParamSame("preferences", this.mockPreferences, autoStandupObserver);
+		assertConstructionParamSame("dataController", this.mockDataController, autoStandupObserver);
+		assertConstructionParameterEquals("dayIndex", this.expectedDay, autoStandupObserver);
+		assertConstructionParameterEquals("blockIndex", this.expectedTimeToWatch, autoStandupObserver);
 	}
 
 	@Test
 	public void testTimeblockSetChanged_AddsTimeblockForStandup() throws Exception {
 		TimeblockSet mockTimeblockSet = createTimeblockSetWithTargetBlock();
 		setStandupBlockOccupiedState(false);
+		expect(this.mockPreferences.autoStandup()).andReturn(true);
 
 		expect(
 				this.mockDataController.createTimeblockSet(this.expectedDay, this.expectedTimeToAddStandup,
@@ -69,8 +70,7 @@ public class AutoStandupObserverTest extends EnhancedTestCase {
 		this.mockDataController.updateBlockData(eq(mockTimeblockSet), capture(timedataCapture));
 
 		startReplay();
-		AutoStandupObserver autoStandupObserver = new AutoStandupObserver(this.mockDataController, this.expectedDay,
-				this.expectedTimeToWatch);
+		AutoStandupObserver autoStandupObserver = createObserverForTesting();
 		autoStandupObserver.timeblockSetChanged(mockTimeblockSet);
 		stopReplay();
 		TimeData actualTimeData = timedataCapture.getValue();
@@ -79,26 +79,41 @@ public class AutoStandupObserverTest extends EnhancedTestCase {
 		assertEquals(this.timeDataBeforeStandup.getRole(), actualTimeData.getRole());
 	}
 
+	private AutoStandupObserver createObserverForTesting() {
+		return new AutoStandupObserver(this.mockPreferences, this.mockDataController, this.expectedDay,
+				this.expectedTimeToWatch);
+	}
+
+	@Test
+	public void testTimeblockSetChanged_DoesNothingIfPreferenceIsNotSelected() throws Exception {
+		expect(this.mockPreferences.autoStandup()).andReturn(false);
+		TimeblockSet mockTimeblockSet = useMock(TimeblockSet.class);
+		startReplay();
+		AutoStandupObserver autoStandupObserver = createObserverForTesting();
+		autoStandupObserver.timeblockSetChanged(mockTimeblockSet);
+		stopReplay();
+	}
+
 	@Test
 	public void testTimeblockSetChanged_DoesNothingIfNextBlockIsOccupied() throws Exception {
 		TimeblockSet mockTimeblockSet = createTimeblockSetWithTargetBlock();
 		setStandupBlockOccupiedState(true);
+		expect(this.mockPreferences.autoStandup()).andReturn(true);
 
 		startReplay();
-		AutoStandupObserver autoStandupObserver = new AutoStandupObserver(this.mockDataController, this.expectedDay,
-				this.expectedTimeToWatch);
+		AutoStandupObserver autoStandupObserver = createObserverForTesting();
 		autoStandupObserver.timeblockSetChanged(mockTimeblockSet);
 		stopReplay();
 	}
 
 	@Test
 	public void testTimeblockSetChanged_DoesNothingIfSetDoesNotBelongToTargetDay() throws Exception {
+		expect(this.mockPreferences.autoStandup()).andReturn(true);
 		TimeblockSet mockTimeblockSet = useMock(TimeblockSet.class);
 		expect(mockTimeblockSet.getBlockSet()).andReturn(new ArrayList<>());
 
 		startReplay();
-		AutoStandupObserver autoStandupObserver = new AutoStandupObserver(this.mockDataController, this.expectedDay,
-				this.expectedTimeToWatch);
+		AutoStandupObserver autoStandupObserver = createObserverForTesting();
 		autoStandupObserver.timeblockSetChanged(mockTimeblockSet);
 		stopReplay();
 	}
