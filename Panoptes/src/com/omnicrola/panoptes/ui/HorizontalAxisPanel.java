@@ -6,8 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.data.DisplayBlock;
+import com.omnicrola.panoptes.settings.AppSettings;
 
 public class HorizontalAxisPanel extends JPanel {
 

@@ -1,9 +1,9 @@
 package com.omnicrola.panoptes.ui.listener;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.MainFrame;
 import com.omnicrola.panoptes.control.IControlObserver;
 import com.omnicrola.panoptes.control.TimeblockSet;
+import com.omnicrola.panoptes.settings.AppSettings;
 
 public class MainFilenameObserver implements IControlObserver {
 

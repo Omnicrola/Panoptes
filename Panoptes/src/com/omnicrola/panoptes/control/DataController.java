@@ -4,18 +4,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.control.TimeblockIndexIterator.IndexTuple;
 import com.omnicrola.panoptes.data.DateWrapper;
 import com.omnicrola.panoptes.data.IReadPersonalData;
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.MainDataModel;
-import com.omnicrola.panoptes.data.PersonalData;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.data.fileIO.IFileWriter;
 import com.omnicrola.panoptes.data.fileIO.PanoptesException;
+import com.omnicrola.panoptes.settings.AppSettings;
+import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.util.ConstructorParameter;
 
 public class DataController {

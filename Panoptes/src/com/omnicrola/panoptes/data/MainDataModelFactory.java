@@ -3,7 +3,7 @@ package com.omnicrola.panoptes.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.omnicrola.panoptes.AppSettings;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.util.ConstructorParameter;
 
 public class MainDataModelFactory {

@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Random;
 
 import javassist.Modifier;
+
+import javax.xml.bind.annotation.XmlElement;
+
 import junit.framework.AssertionFailedError;
 
 import org.easymock.EasyMock;
@@ -42,7 +45,7 @@ public abstract class EnhancedTestCase {
 				+ " was not found on class " + ourClass.getName());
 	}
 
-	public static void assertConstructionParameterEquals(Object productionObject, Object expectedReturn, String name) {
+	public static void assertConstructionParameterEquals(String name, Object expectedReturn, Object productionObject) {
 
 		final Object retrievedObject = getConstructionParam(productionObject, name);
 		if (expectedReturn.equals(retrievedObject)) {
@@ -82,6 +85,23 @@ public abstract class EnhancedTestCase {
 			final int modifiers = declaredConstructors[i].getModifiers();
 			assertTrue(Modifier.isPackage(modifiers));
 
+		}
+	}
+
+	public static void assertXmlElementOnField(Class<?> targetClass, String fieldName, String elementName) {
+		Field autoStandupField = reflectFieldFromClass(targetClass, fieldName);
+		XmlElement annotation = autoStandupField.getAnnotation(XmlElement.class);
+		assertEquals(elementName, annotation.name());
+	}
+
+	public static Field reflectFieldFromClass(Class<?> targetClass, String fieldName) {
+		try {
+			return targetClass.getDeclaredField(fieldName);
+		} catch (NoSuchFieldException e) {
+			throw new AssertionFailedError("Field '" + fieldName + "' does not exist on class '"
+					+ targetClass.getName() + "'");
+		} catch (SecurityException e) {
+			throw e;
 		}
 	}
 
@@ -321,15 +341,17 @@ public abstract class EnhancedTestCase {
 	private ArrayList<Object> mocks = new ArrayList<Object>();
 	private final ArrayList<Class<?>> staticMocks = new ArrayList<Class<?>>();
 	private boolean stopReplayWasCalled;
+	private boolean startReplayWasCalled;
 
 	@Before
 	public void setUp() throws Exception {
 		this.stopReplayWasCalled = false;
+		this.startReplayWasCalled = false;
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		if (!this.stopReplayWasCalled) {
+		if (this.startReplayWasCalled && !this.stopReplayWasCalled) {
 			stopReplay();
 		}
 	}
@@ -341,6 +363,7 @@ public abstract class EnhancedTestCase {
 		for (final Class<?> singleClass : this.staticMocks) {
 			PowerMock.replay(singleClass);
 		}
+		this.startReplayWasCalled = true;
 		this.stopReplayWasCalled = false;
 	}
 
@@ -362,7 +385,7 @@ public abstract class EnhancedTestCase {
 	}
 
 	private void wipeField(Object childObject, Field targetField) throws IllegalArgumentException,
-	IllegalAccessException {
+			IllegalAccessException {
 		if (!targetField.getType().isPrimitive()) {
 			targetField.setAccessible(true);
 			targetField.set(childObject, null);

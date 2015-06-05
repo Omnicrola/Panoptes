@@ -7,7 +7,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.MainFrame;
 import com.omnicrola.panoptes.control.DataController;
 import com.omnicrola.panoptes.data.fileIO.FileDataLoader;
@@ -20,6 +19,7 @@ import com.omnicrola.panoptes.data.fileIO.xls.PersonalDataExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.TimesheetDataExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.XlsFileFilter;
 import com.omnicrola.panoptes.data.fileIO.xls.XlsUtilityToolbox;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.AboutDialogBuilder;
 import com.omnicrola.panoptes.ui.DialogFactoryToolbox;
 import com.omnicrola.panoptes.ui.listener.ExportCommandListener;

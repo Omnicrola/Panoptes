@@ -8,11 +8,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.BottomPanelFactory;
 import com.omnicrola.panoptes.MainFrame;
 import com.omnicrola.panoptes.TopPanelFactory;
 import com.omnicrola.panoptes.control.DataController;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.BottomPanel;
 import com.omnicrola.panoptes.ui.listener.MainFilenameObserver;
 import com.omnicrola.util.ConstructorParameter;

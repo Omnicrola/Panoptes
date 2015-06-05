@@ -2,10 +2,10 @@ package com.omnicrola.panoptes.bootstrap;
 
 import org.junit.Test;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.BottomPanelFactory;
 import com.omnicrola.panoptes.TopPanelFactory;
 import com.omnicrola.panoptes.data.MainDataModelFactory;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.autocomplete.AutoCompletePopupFactory;
 import com.omnicrola.testing.util.EnhancedTestCase;
 

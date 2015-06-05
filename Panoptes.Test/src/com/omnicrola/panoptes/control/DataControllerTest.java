@@ -12,13 +12,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.data.DateWrapper;
 import com.omnicrola.panoptes.data.MainDataModel;
-import com.omnicrola.panoptes.data.PersonalData;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
+import com.omnicrola.panoptes.settings.AppSettings;
+import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.testing.util.EnhancedTestCase;
 import com.omnicrola.testing.util.ObjectWrapper;
 

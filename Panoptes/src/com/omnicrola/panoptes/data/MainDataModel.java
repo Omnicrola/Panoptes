@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.omnicrola.panoptes.AppSettings;
+import com.omnicrola.panoptes.settings.AppSettings;
+import com.omnicrola.panoptes.settings.PersonalData;
 
 public class MainDataModel {
 

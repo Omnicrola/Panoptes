@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 
 import com.omnicrola.panoptes.control.DataController;
 import com.omnicrola.panoptes.data.DisplayBlock;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.BlockPanel;
 import com.omnicrola.panoptes.ui.BottomPanel;
 import com.omnicrola.panoptes.ui.ColorProvider;

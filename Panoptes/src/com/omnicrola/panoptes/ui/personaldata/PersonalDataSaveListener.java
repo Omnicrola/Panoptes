@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import com.omnicrola.panoptes.control.DataController;
-import com.omnicrola.panoptes.data.PersonalData;
+import com.omnicrola.panoptes.settings.PersonalData;
 
 public class PersonalDataSaveListener implements ActionListener {
 

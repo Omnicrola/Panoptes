@@ -1,7 +1,9 @@
-package com.omnicrola.panoptes.data;
+package com.omnicrola.panoptes.settings;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
+import com.omnicrola.panoptes.data.IReadPersonalData;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonalData implements IReadPersonalData {

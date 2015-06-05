@@ -24,6 +24,7 @@ import javax.swing.border.BevelBorder;
 
 import com.omnicrola.panoptes.control.DataController;
 import com.omnicrola.panoptes.data.DateWrapper;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.DisplayBlockModelPresenter;
 import com.omnicrola.panoptes.ui.SimpleFocusTraversalPolicy;
 import com.omnicrola.panoptes.ui.TopPanel;

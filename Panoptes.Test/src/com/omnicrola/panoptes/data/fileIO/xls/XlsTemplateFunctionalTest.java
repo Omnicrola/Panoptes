@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class XlsTemplateFunctionalTest {
@@ -48,6 +49,7 @@ public class XlsTemplateFunctionalTest {
 	}
 
 	@Test
+	@Ignore
 	public void testLoadXls() throws Exception {
 
 		XSSFSheet sheet = this.workbook.getSheetAt(0);

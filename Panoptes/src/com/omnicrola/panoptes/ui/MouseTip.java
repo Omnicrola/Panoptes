@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.control.DataController;
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.settings.AppSettings;
 
 public class MouseTip {
 

@@ -1,9 +1,9 @@
 package com.omnicrola.panoptes.bootstrap;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.BottomPanelFactory;
 import com.omnicrola.panoptes.TopPanelFactory;
 import com.omnicrola.panoptes.data.MainDataModelFactory;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.autocomplete.AutoCompletePopupFactory;
 
 public class Singularity {

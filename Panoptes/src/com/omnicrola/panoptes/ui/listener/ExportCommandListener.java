@@ -8,11 +8,11 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.MainFrame;
 import com.omnicrola.panoptes.control.DataController;
 import com.omnicrola.panoptes.data.fileIO.xls.ExcelExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.ExportThread;
+import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.ui.InfoDialog;
 
 public class ExportCommandListener implements ActionListener {

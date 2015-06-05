@@ -7,8 +7,8 @@ import java.awt.FlowLayout;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import com.omnicrola.panoptes.AppSettings;
 import com.omnicrola.panoptes.MainFrame;
+import com.omnicrola.panoptes.settings.AppSettings;
 
 public class AboutDialogBuilder {
 

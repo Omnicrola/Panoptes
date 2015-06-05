@@ -1,4 +1,4 @@
-package com.omnicrola.panoptes;
+package com.omnicrola.panoptes.settings;
 
 import java.awt.Font;
 import java.io.File;

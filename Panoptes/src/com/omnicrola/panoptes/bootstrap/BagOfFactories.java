@@ -1,14 +1,17 @@
 package com.omnicrola.panoptes.bootstrap;
 
+import com.omnicrola.panoptes.control.AutoStandupObserver;
 import com.omnicrola.panoptes.control.DataController;
+import com.omnicrola.panoptes.control.IControlObserver;
 import com.omnicrola.panoptes.data.MainDataModel;
 import com.omnicrola.panoptes.data.MainDataModelFactory;
 import com.omnicrola.panoptes.data.fileIO.xml.SettingsFileManager;
-import com.omnicrola.panoptes.data.fileIO.xml.XMLSettings;
+import com.omnicrola.panoptes.data.fileIO.xml.XmlSettings;
 import com.omnicrola.util.ConstructorParameter;
 
 public class BagOfFactories {
 
+	private static final int NINE_FOURTY_FIVE = 15;
 	@ConstructorParameter("settingsFileManagerFactory")
 	private final SettingsFileManagerFactory settingsFileManagerFactory;
 	@ConstructorParameter("mainDataModelFactory")
@@ -32,14 +35,28 @@ public class BagOfFactories {
 
 	public DataController buildDataController() {
 		SettingsFileManager settingsFileManagerLoader = this.settingsFileManagerFactory.build();
-		XMLSettings settings = settingsFileManagerLoader.load();
+		XmlSettings settings = settingsFileManagerLoader.load();
 
 		MainDataModel mainDataModel = this.mainDataModelFactory.build(settings.statements);
-		DataController dataController = this.dataControllerFactory.build(mainDataModel);
+		DataController dataController = buildDataController(mainDataModel);
 		dataController.setPersonalData(settings.personalData);
 
 		this.shutdownSequenceFactory.buildAndAttachShutdownToRuntime(settingsFileManagerLoader, mainDataModel);
 		return dataController;
+	}
+
+	private DataController buildDataController(MainDataModel mainDataModel) {
+		DataController dataController = this.dataControllerFactory.build(mainDataModel);
+		dataController.addObserver(createStandupObserver(dataController, 2));
+		dataController.addObserver(createStandupObserver(dataController, 3));
+		dataController.addObserver(createStandupObserver(dataController, 4));
+		dataController.addObserver(createStandupObserver(dataController, 5));
+		dataController.addObserver(createStandupObserver(dataController, 6));
+		return dataController;
+	}
+
+	private IControlObserver createStandupObserver(DataController dataController, int dayIndex) {
+		return new AutoStandupObserver(dataController, dayIndex, NINE_FOURTY_FIVE);
 	}
 
 	public MainWindowFactory getMainWindowFactory() {
