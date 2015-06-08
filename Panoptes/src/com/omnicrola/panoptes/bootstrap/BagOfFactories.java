@@ -59,7 +59,7 @@ public class BagOfFactories {
 
 	private IControlObserver createStandupObserver(IReadAppPreferences preferences, DataController dataController,
 			int dayIndex) {
-		return new AutoStandupObserver(preferences, dataController, dayIndex, NINE_FOURTY_FIVE);
+		return new AutoStandupObserver(dataController, dayIndex, NINE_FOURTY_FIVE);
 	}
 
 	public MainWindowFactory getMainWindowFactory() {

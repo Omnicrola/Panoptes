@@ -108,7 +108,6 @@ public class BagOfFactoriesTest extends EnhancedTestCase {
 	private void checkStandupObserver(int expectedDayIndex, IControlObserver controlObserver) {
 		AutoStandupObserver observer = assertIsOfTypeAndGet(AutoStandupObserver.class, controlObserver);
 		assertConstructionParameterEquals("dataController", this.mockDataController, observer);
-		assertConstructionParameterEquals("preferences", this.xmlSettings.preferences, observer);
 		assertConstructionParameterEquals("dayIndex", expectedDayIndex, observer);
 		assertConstructionParameterEquals("blockIndex", 15, observer);
 	}
