@@ -31,6 +31,9 @@ import com.omnicrola.panoptes.ui.listener.SaveWorkspaceCommandListener;
 import com.omnicrola.panoptes.ui.listener.ShowAboutDialogCommandListener;
 import com.omnicrola.panoptes.ui.personaldata.OpenPersonalDataDisplayCommand;
 import com.omnicrola.panoptes.ui.personaldata.PersonalDataDisplayFactory;
+import com.omnicrola.panoptes.ui.preferences.OpenPreferencesDisplayCommand;
+import com.omnicrola.panoptes.ui.preferences.PreferencesDialogControllerFactory;
+import com.omnicrola.panoptes.ui.preferences.PreferencesViewFactory;
 import com.omnicrola.panoptes.ui.sow.SowDialogFactory;
 import com.omnicrola.panoptes.ui.sow.SowModelPresenter;
 import com.omnicrola.util.ConstructorParameter;
@@ -82,12 +85,12 @@ public class MenuFactory {
 		return helpMenu;
 	}
 
-	public JMenuBar buildMenuBar(DataController controller, AppSettings settings, MainFrame mainFrame) {
+	public JMenuBar buildMenuBar(DataController controller, MainFrame mainFrame) {
 		JMenuBar jMenuBar = new JMenuBar();
 
 		jMenuBar.add(buildFileMenu(controller, mainFrame));
 		jMenuBar.add(buildSettingsMenu(controller));
-		jMenuBar.add(buildHelpMenu(settings, mainFrame));
+		jMenuBar.add(buildHelpMenu(this.appSettings, mainFrame));
 
 		return jMenuBar;
 	}
@@ -107,8 +110,14 @@ public class MenuFactory {
 		JMenuItem personalDataItem = this.menuItemFactory.createMenuItemWithHotkey("Personal Data", KeyEvent.VK_P,
 				openPersonalDataDisplayCommand);
 
+		OpenPreferencesDisplayCommand openSettingsDisplayCommand = new OpenPreferencesDisplayCommand(
+				new PreferencesViewFactory(), new PreferencesDialogControllerFactory(controller));
+		JMenuItem preferencesItem = this.menuItemFactory.createMenuItemWithHotkey("Preferences", KeyEvent.VK_E,
+				openSettingsDisplayCommand);
+
 		settingsMenu.add(sowItem);
 		settingsMenu.add(personalDataItem);
+		settingsMenu.add(preferencesItem);
 
 		return settingsMenu;
 	}

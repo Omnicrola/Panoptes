@@ -385,7 +385,7 @@ public abstract class EnhancedTestCase {
 	}
 
 	private void wipeField(Object childObject, Field targetField) throws IllegalArgumentException,
-			IllegalAccessException {
+	IllegalAccessException {
 		if (!targetField.getType().isPrimitive()) {
 			targetField.setAccessible(true);
 			targetField.set(childObject, null);

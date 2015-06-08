@@ -46,7 +46,7 @@ public class MainWindowFactory {
 		mainFrame.setIconImage(clockIcon);
 
 		controller.addObserver(new MainFilenameObserver(mainFrame, this.settings));
-		JMenuBar jMenuBar = this.menuFactory.buildMenuBar(controller, this.settings, mainFrame);
+		JMenuBar jMenuBar = this.menuFactory.buildMenuBar(controller, mainFrame);
 		mainFrame.setJMenuBar(jMenuBar);
 
 		mainFrame.setLayout(new BorderLayout());

@@ -17,6 +17,7 @@ import com.omnicrola.panoptes.data.MainDataModel;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
+import com.omnicrola.panoptes.settings.AppPreferences;
 import com.omnicrola.panoptes.settings.AppSettings;
 import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.testing.util.EnhancedTestCase;
@@ -86,6 +87,19 @@ public class DataControllerTest extends EnhancedTestCase {
 		startReplay();
 		this.dataController.setPersonalData(expectedPersonalDataSet);
 		assertEquals(expectedPersonalDataReturn, this.dataController.getPersonalData());
+	}
+
+	@Test
+	public void testGetSetPreferences() throws Exception {
+		AppPreferences expectedPreferences = useMock(AppPreferences.class);
+		AppPreferences preferencesToSave = useMock(AppPreferences.class);
+		expect(this.mockDataModel.getPreferences()).andReturn(expectedPreferences).once();
+		this.mockDataModel.setPreferences(preferencesToSave);
+		expectLastCall().once();
+
+		startReplay();
+		assertSame(expectedPreferences, this.dataController.getPreferences());
+		this.dataController.setPreferences(preferencesToSave);
 	}
 
 	@Test

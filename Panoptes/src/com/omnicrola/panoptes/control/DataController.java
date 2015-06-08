@@ -14,7 +14,9 @@ import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.data.fileIO.IFileWriter;
 import com.omnicrola.panoptes.data.fileIO.PanoptesException;
+import com.omnicrola.panoptes.settings.AppPreferences;
 import com.omnicrola.panoptes.settings.AppSettings;
+import com.omnicrola.panoptes.settings.IReadAppPreferences;
 import com.omnicrola.panoptes.settings.PersonalData;
 import com.omnicrola.util.ConstructorParameter;
 
@@ -63,18 +65,6 @@ public class DataController {
 		return new TimeblockSet(selectedList);
 
 	}
-
-	// public Set<String> getAllCardNumbers() {
-	// HashSet<String> cardSet = new HashSet<String>();
-	// List<List<TimeBlock>> timeBlocks = this.mainDataModel.getTimeBlocks();
-	// for (List<TimeBlock> row : timeBlocks) {
-	// for (IReadTimeblock timeBlock : row) {
-	// String card = timeBlock.getTimeData().getCard();
-	// cardSet.add(card);
-	// }
-	// }
-	// return cardSet;
-	// }
 
 	public TimeblockSet getAllTimeblocks() {
 		return createAllBlockSet();
@@ -177,6 +167,14 @@ public class DataController {
 		for (IControlObserver observer : this.observerList) {
 			observer.timeblockSetChanged(timeblockSet);
 		}
+	}
+
+	public IReadAppPreferences getPreferences() {
+		return this.mainDataModel.getPreferences();
+	}
+
+	public void setPreferences(AppPreferences preferencesToSave) {
+		this.mainDataModel.setPreferences(preferencesToSave);
 	}
 
 }
