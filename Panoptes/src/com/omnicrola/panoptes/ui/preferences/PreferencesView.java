@@ -36,13 +36,18 @@ public class PreferencesView extends JDialog implements IPreferencesView {
 		this.autoStandupCheckbox.setName("auto-standup-checkbox");
 		this.autoStandupCheckbox.setText("Automatic Standup");
 		this.autoStandupCheckbox
-		.setToolTipText("When enabled: automatically creates an entry for Standup (STU) at 10:00 when you create an entry at 9:45");
+				.setToolTipText("When enabled: automatically creates an entry for Standup (STU) at 10:00 when you create an entry at 9:45");
 		this.getContentPane().add(this.autoStandupCheckbox);
 	}
 
 	@Override
 	public void setAutoStandup(boolean isSelected) {
 		this.autoStandupCheckbox.setSelected(isSelected);
+	}
+
+	@Override
+	public boolean getAutoStandup() {
+		return this.autoStandupCheckbox.isSelected();
 	}
 
 	@Override
@@ -57,6 +62,7 @@ public class PreferencesView extends JDialog implements IPreferencesView {
 
 	@Override
 	public void showDisplay() {
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 

@@ -57,8 +57,13 @@ public class PreferencesViewTest extends EnhancedTestCase {
 		JCheckBox standupCheckbox = getStandupCheckbox(preferencesView);
 		preferencesView.setAutoStandup(true);
 		assertTrue(standupCheckbox.isSelected());
+		assertTrue(preferencesView.getAutoStandup());
 		preferencesView.setAutoStandup(false);
 		assertFalse(standupCheckbox.isSelected());
+		assertFalse(preferencesView.getAutoStandup());
+
+		standupCheckbox.setSelected(true);
+		assertTrue(preferencesView.getAutoStandup());
 	}
 
 	@Test

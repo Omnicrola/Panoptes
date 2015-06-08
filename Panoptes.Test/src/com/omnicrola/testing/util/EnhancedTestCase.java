@@ -385,7 +385,7 @@ public abstract class EnhancedTestCase {
 	}
 
 	private void wipeField(Object childObject, Field targetField) throws IllegalArgumentException,
-	IllegalAccessException {
+			IllegalAccessException {
 		if (!targetField.getType().isPrimitive()) {
 			targetField.setAccessible(true);
 			targetField.set(childObject, null);
@@ -403,6 +403,10 @@ public abstract class EnhancedTestCase {
 
 	public static int randI() {
 		return randomizer.nextInt();
+	}
+
+	public static boolean randB() {
+		return randomizer.nextInt(100) < 50;
 	}
 
 	public static float randF() {

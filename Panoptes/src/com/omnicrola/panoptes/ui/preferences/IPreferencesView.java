@@ -2,8 +2,9 @@ package com.omnicrola.panoptes.ui.preferences;
 
 import java.awt.event.ActionListener;
 
+import com.omnicrola.panoptes.ui.IDialog;
 
-public interface IPreferencesView {
+public interface IPreferencesView extends IDialog {
 
 	public abstract void addCancelListener(ActionListener actionListener);
 
@@ -11,8 +12,6 @@ public interface IPreferencesView {
 
 	public abstract void setAutoStandup(boolean isSelected);
 
-	public abstract void closeDisplay();
-
-	public abstract void showDisplay();
+	public abstract boolean getAutoStandup();
 
 }
