@@ -16,17 +16,17 @@ import com.omnicrola.panoptes.data.TimeBlock;
 @XmlRootElement(name = "SavedBlocks")
 public class XMLTimeblockList {
 
-    @XmlElement(name = "weekEnding")
-    public DateWrapper weekEnding = new DateWrapper(new Date());
+	@XmlElement(name = "weekEnding")
+	public DateWrapper weekEnding = new DateWrapper(new Date());
 
-    @XmlElement(name = "block")
-    public List<XMLTimeblock> timeblocks;
+	@XmlElement(name = "block")
+	public List<XMLTimeblock> timeblocks = new ArrayList<>();
 
-    public List<TimeBlock> createTimeblocks() {
-        List<TimeBlock> timeblocks = new ArrayList<>();
-        for (XMLTimeblock xmlBlock : this.timeblocks) {
-            timeblocks.add(xmlBlock.createTimeblock());
-        }
-        return timeblocks;
-    }
+	public List<TimeBlock> createTimeblocks() {
+		List<TimeBlock> timeblocks = new ArrayList<>();
+		for (XMLTimeblock xmlBlock : this.timeblocks) {
+			timeblocks.add(xmlBlock.createTimeblock());
+		}
+		return timeblocks;
+	}
 }

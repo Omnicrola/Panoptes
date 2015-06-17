@@ -79,6 +79,7 @@ public class TopPanelFactory {
 
 		AddTimeblockListener addTimeblockListener = new AddTimeblockListener(controller, topPanelInputSet);
 		addButton.addActionListener(addTimeblockListener);
+		topPanelInputSet.setSelection(1, 1, 1);
 
 		TopPanel topPanel = new TopPanel();
 		topPanel.setPreferredSize(new Dimension(this.settings.getScreenWidth(), 100));
