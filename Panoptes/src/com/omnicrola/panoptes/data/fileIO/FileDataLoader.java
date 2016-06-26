@@ -12,11 +12,11 @@ import javax.xml.bind.Unmarshaller;
 import com.omnicrola.panoptes.data.DateWrapper;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblock;
-import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblockList;
+import com.omnicrola.panoptes.data.fileIO.xml.OldXmlTimeblockList;
 
 public class FileDataLoader {
 
-    private List<TimeBlock> convertXmlList(XMLTimeblockList xmlBlocklist) {
+    private List<TimeBlock> convertXmlList(OldXmlTimeblockList xmlBlocklist) {
         List<TimeBlock> timeblocks = new ArrayList<>();
 
         for (XMLTimeblock xmlBlock : xmlBlocklist.timeblocks) {
@@ -27,9 +27,9 @@ public class FileDataLoader {
 
     public DateWrapper loadDataFromFile(File source, List<TimeBlock> timeblockBuffer) {
         try {
-            Unmarshaller xmlUnmarshaller = JAXBContext.newInstance(XMLTimeblockList.class)
+            Unmarshaller xmlUnmarshaller = JAXBContext.newInstance(OldXmlTimeblockList.class)
                     .createUnmarshaller();
-            XMLTimeblockList xmlBlocklist = (XMLTimeblockList) xmlUnmarshaller.unmarshal(source);
+            OldXmlTimeblockList xmlBlocklist = (OldXmlTimeblockList) xmlUnmarshaller.unmarshal(source);
             timeblockBuffer.clear();
             timeblockBuffer.addAll(convertXmlList(xmlBlocklist));
 

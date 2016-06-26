@@ -27,9 +27,10 @@ import com.omnicrola.panoptes.data.DateWrapper;
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.TimeBlock;
 import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.data.fileIO.xml.OldXmlTimeblockList;
 import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeData;
 import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblock;
-import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblockList;
+import com.omnicrola.panoptes.data.fileIO.xml.XmlTimesheetData;
 import com.omnicrola.testing.util.EnhancedTestCase;
 
 @RunWith(PowerMockRunner.class)
@@ -41,7 +42,7 @@ public class FileDataWriterTest extends EnhancedTestCase {
 	private File mockFile;
 	private DateWrapper mockDate;
 	private TimeblockSet mockTimeblockSet;
-	private Capture<XMLTimeblockList> listCapture;
+	private Capture<XmlTimesheetData> listCapture;
 
 	@Before
 	public void setupMocks() throws Exception {
@@ -53,7 +54,7 @@ public class FileDataWriterTest extends EnhancedTestCase {
 		this.mockTimeblockSet = useMock(TimeblockSet.class);
 
 		this.listCapture = Capture.newInstance();
-		expect(JAXBContext.newInstance(XMLTimeblockList.class)).andReturn(this.mockContext);
+		expect(JAXBContext.newInstance(OldXmlTimeblockList.class)).andReturn(this.mockContext);
 		expect(this.mockContext.createMarshaller()).andReturn(this.mockMarshaller);
 		this.mockMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		this.mockMarshaller.marshal(capture(this.listCapture), eq(this.mockFile));
@@ -70,7 +71,7 @@ public class FileDataWriterTest extends EnhancedTestCase {
 		fileDataWriter.writeDataToFile(this.mockFile, this.mockDate, this.mockTimeblockSet);
 		stopReplay();
 
-		XMLTimeblockList actualXmlList = assertIsOfTypeAndGet(XMLTimeblockList.class, this.listCapture.getValue());
+		OldXmlTimeblockList actualXmlList = assertIsOfTypeAndGet(OldXmlTimeblockList.class, this.listCapture.getValue());
 		assertSame(this.mockDate, actualXmlList.weekEnding);
 
 	}
@@ -94,7 +95,7 @@ public class FileDataWriterTest extends EnhancedTestCase {
 		fileDataWriter.writeDataToFile(this.mockFile, this.mockDate, this.mockTimeblockSet);
 		stopReplay();
 
-		XMLTimeblockList actualXmlList = assertIsOfTypeAndGet(XMLTimeblockList.class, this.listCapture.getValue());
+		OldXmlTimeblockList actualXmlList = assertIsOfTypeAndGet(OldXmlTimeblockList.class, this.listCapture.getValue());
 		List<XMLTimeblock> actualTimeblocks = actualXmlList.timeblocks;
 		assertEquals(3, actualTimeblocks.size());
 		checkTimeblock(timeBlock1, actualTimeblocks.get(0));

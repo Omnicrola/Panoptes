@@ -12,7 +12,7 @@ import com.omnicrola.panoptes.control.TimeblockSet;
 import com.omnicrola.panoptes.data.DateWrapper;
 import com.omnicrola.panoptes.data.IReadTimeblock;
 import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblock;
-import com.omnicrola.panoptes.data.fileIO.xml.XMLTimeblockList;
+import com.omnicrola.panoptes.data.fileIO.xml.OldXmlTimeblockList;
 
 public class FileDataWriter implements IFileWriter {
 
@@ -30,12 +30,12 @@ public class FileDataWriter implements IFileWriter {
 
     @Override
     public void writeDataToFile(File destination, DateWrapper weekEnding, TimeblockSet allTimeblocks) {
-        XMLTimeblockList xmlTimeblockList = new XMLTimeblockList();
+        OldXmlTimeblockList xmlTimeblockList = new OldXmlTimeblockList();
         xmlTimeblockList.timeblocks = prepareForXml(allTimeblocks);
         xmlTimeblockList.weekEnding = weekEnding;
 
         try {
-            Marshaller xmlMarshaller = JAXBContext.newInstance(XMLTimeblockList.class)
+            Marshaller xmlMarshaller = JAXBContext.newInstance(OldXmlTimeblockList.class)
                     .createMarshaller();
             xmlMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             xmlMarshaller.marshal(xmlTimeblockList, destination);

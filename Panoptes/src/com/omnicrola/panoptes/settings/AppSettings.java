@@ -30,7 +30,7 @@ public class AppSettings {
 	private static final String[] TIMES = buildTimes();
 	private static final String[] ROLES = new String[] { "DEV", "HTA", "QA", "PM" };
 	private static final String[] DAYS = new String[] { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday",
-			"Thursday", "Friday" };
+		"Thursday", "Friday" };
 	private static final String[] DAYS_SHORT = new String[] { "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri" };
 
 	private static final String SETTINGS_FILE_LOCATION = System.getProperty("user.home") + File.separator
@@ -136,6 +136,10 @@ public class AppSettings {
 
 	public String getDefaultExportFilename() {
 		return "NULL5150";
+	}
+
+	public int getCurrentFileFormatVersion() {
+		return 2;
 	}
 
 }
