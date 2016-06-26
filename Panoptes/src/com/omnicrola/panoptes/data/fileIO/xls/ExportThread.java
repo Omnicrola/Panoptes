@@ -7,7 +7,6 @@ import javax.swing.JDialog;
 
 import com.omnicrola.panoptes.control.TimeblockSet;
 import com.omnicrola.panoptes.data.DateWrapper;
-import com.omnicrola.panoptes.data.fileIO.PanoptesException;
 
 public class ExportThread extends Thread {
 
@@ -32,7 +31,7 @@ public class ExportThread extends Thread {
 		try {
 			this.excelExporter.writeDataToFile(this.selectedFile, this.weekEnding, this.allTimeblocks);
 			EventQueue.invokeLater(new ExportSuccessEvent());
-		} catch (PanoptesException exception) {
+		} catch (Exception exception) {
 			EventQueue.invokeLater(new ExportFailEvent(exception));
 		}
 		this.infoDialog.setVisible(false);
