@@ -86,8 +86,7 @@ public class ExportModelBuilder {
         String card = timeBlock.getTimeData().getCard();
         String role = timeBlock.getTimeData().getRole();
 
-        ExportDataRow exportDataRow = new ExportDataRow(workStatement, project, role, card, true,
-                true);
+        ExportDataRow exportDataRow = new ExportDataRow(workStatement, project, role, card);
         rowMap.put(getHashKey(timeBlock), exportDataRow);
         return exportDataRow;
     }
