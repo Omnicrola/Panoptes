@@ -35,15 +35,19 @@ public class PersonalDataExporter {
 		String email = personalData.getEmail();
 
 		String address2 = city + ", " + state + " " + zip;
-		String addressBlock = this.toolbox.join("\n", address, address2, phone, " ", email);
+		String addressBlock = this.toolbox.join("\n", address, address2);
 		String payableTo = "Makes all checks payable to " + fullName;
 
 		XSSFCell nameCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 2, 0);
 		XSSFCell addressCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 3, 0);
+		XSSFCell phoneCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 4, 0);
+		XSSFCell emailCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 5, 0);
 		XSSFCell payableCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 20, 0);
 
 		nameCell.setCellValue(fullName);
 		addressCell.setCellValue(addressBlock);
+		phoneCell.setCellValue(phone);
+		emailCell.setCellValue(email);
 		payableCell.setCellValue(payableTo);
 
 	}
