@@ -11,7 +11,7 @@ public class AppSettings {
 	public static final AppSettings INSTANCE = new AppSettings();
 
 	private static final String APPLICATION_TITLE = "Panoptes";
-	private static final String APPLICATION_VERSION = "1.2";
+	private static final String APPLICATION_VERSION = "1.3";
 
 	private static int DAYS_IN_WEEK = 7;
 	private static int BLOCK_IN_MINUTES = 15;
@@ -33,11 +33,10 @@ public class AppSettings {
 		"Thursday", "Friday" };
 	private static final String[] DAYS_SHORT = new String[] { "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri" };
 
-	private static final String SETTINGS_FILE_LOCATION = System.getProperty("user.home") + File.separator
-			+ "panoptes.settings.xml";
+	private static final String SETTINGS_FILE_LOCATION = "panoptes.settings.xml";
 
 	private static final String ABOUT_TEXT = "<h2>Panoptes Invoice Assistant</h2><br/>" + "Version "
-			+ APPLICATION_VERSION + "<br/>" + "(c) 2015 Eric Schreffler<br/>" + "www.omnicrola.com" + "<br/>&nbsp<br/>"
+			+ APPLICATION_VERSION + "<br/>" + "(c) 2016 Eric Schreffler<br/>" + "www.omnicrola.com" + "<br/>&nbsp<br/>"
 			+ "Comments? Suggestions? Bribes accepted in the form of baked goods and/or beer.";
 
 	private static String[] buildTimes() {
