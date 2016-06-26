@@ -24,7 +24,7 @@ public class TimesheetDataExporter {
 		XSSFRow totalsRow = timesheet.getRow(INDEX_OF_TOTALS_ROW + numberOfNewRows);
 		int start = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
 		int end = start + numberOfNewRows;
-		for (int i = 6; i <= 15; i++) {
+		for (int i = 4; i <= 12; i++) {
 			reWriteVerticalSumFormula(totalsRow, i, start, end);
 		}
 	}
