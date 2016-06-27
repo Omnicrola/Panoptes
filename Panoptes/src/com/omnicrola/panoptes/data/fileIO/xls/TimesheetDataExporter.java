@@ -1,6 +1,7 @@
 package com.omnicrola.panoptes.data.fileIO.xls;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -8,6 +9,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.omnicrola.panoptes.data.ProjectGroup;
 
 public class TimesheetDataExporter {
 
@@ -22,7 +25,7 @@ public class TimesheetDataExporter {
 	private void reWriteSumFormulas(XSSFWorkbook workbook, int numberOfNewRows) {
 		XSSFSheet timesheet = workbook.getSheetAt(0);
 		XSSFRow totalsRow = timesheet.getRow(INDEX_OF_TOTALS_ROW + numberOfNewRows);
-		int start = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+		int start = ExcelExporter.TIMESHEET_BILLABLE_ROW_INSERT_POSITION;
 		int end = start + numberOfNewRows;
 		for (int i = 4; i <= 12; i++) {
 			reWriteVerticalSumFormula(totalsRow, i, start, end);
@@ -61,14 +64,40 @@ public class TimesheetDataExporter {
 	}
 
 	public void writeTimesheetData(XSSFWorkbook workbook, List<ExportDataRow> exportList) {
+
 		XSSFSheet timesheet = workbook.getSheetAt(ExcelExporter.SHEET_TIMESHEET);
-		int insertPosition = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+
+		List<ExportDataRow> billableRows = filterProjectGroup(exportList, ProjectGroup.CLIENT_BILLABLE);
+		List<ExportDataRow> internalProjectRows = filterProjectGroup(exportList, ProjectGroup.INTERNAL_PROJECT);
+		List<ExportDataRow> internalSupportRows = filterProjectGroup(exportList, ProjectGroup.INTERNAL_SUPPORT);
+
+		int numberOfNewRows = 0;
+		numberOfNewRows += insertRowsForGroup(internalSupportRows, timesheet,
+				ExcelExporter.TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION);
+		numberOfNewRows += insertRowsForGroup(internalProjectRows, timesheet,
+				ExcelExporter.TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION);
+		numberOfNewRows += insertRowsForGroup(billableRows, timesheet,
+				ExcelExporter.TIMESHEET_BILLABLE_ROW_INSERT_POSITION);
+
+		reWriteSumFormulas(workbook, numberOfNewRows);
+	}
+
+	private List<ExportDataRow> filterProjectGroup(List<ExportDataRow> exportList, ProjectGroup projectGroup) {
+		return exportList.stream().filter(r -> projectGroup.equals(r.getWorkStatement().getProjectGroup()))
+				.collect(Collectors.toList());
+	}
+
+	private int insertRowsForGroup(List<ExportDataRow> exportList, XSSFSheet timesheet, int insertPosition) {
 		int numberOfNewRows = exportList.size();
+		if (numberOfNewRows == 0) {
+			return 0;
+		}
 
+		System.out.println("insert at position : " + insertPosition);
 		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows, true, true);
-		XSSFRow templateRow = timesheet.getRow(ExcelExporter.TIMESHEET_ROW_INSERT_POSITION - 1);
+		XSSFRow templateRow = timesheet.getRow(insertPosition - 1);
 
-		int currentRow = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+		int currentRow = insertPosition;
 		int projectSectionStart = currentRow;
 		for (ExportDataRow exportRow : exportList) {
 			XSSFRow sheetRow = timesheet.createRow(currentRow);
@@ -82,8 +111,8 @@ public class TimesheetDataExporter {
 			}
 			currentRow++;
 		}
-
-		reWriteSumFormulas(workbook, numberOfNewRows);
+		writeProjectSumFormula(timesheet.getRow(currentRow - 1), projectSectionStart, currentRow);
+		return numberOfNewRows;
 	}
 
 	private void writeTimesheetRow(XSSFRow sheetRow, ExportDataRow dataRow) {

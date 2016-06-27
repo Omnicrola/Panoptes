@@ -32,6 +32,7 @@ public class ExportThread extends Thread {
 			this.excelExporter.writeDataToFile(this.selectedFile, this.weekEnding, this.allTimeblocks);
 			EventQueue.invokeLater(new ExportSuccessEvent());
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			EventQueue.invokeLater(new ExportFailEvent(exception));
 		}
 		this.infoDialog.setVisible(false);
