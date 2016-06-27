@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.ui.sow;
 
+import com.omnicrola.panoptes.data.ProjectGroup;
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.ui.SelfSortingComboBoxModel;
 import com.omnicrola.panoptes.ui.listener.ISowViewUpdater;
@@ -14,7 +15,7 @@ public class SowComboBoxUpdater implements ISowViewUpdater {
 
     @Override
     public void currentSelectionChanged(String projectName, String projectCode, String client,
-            String sowCode, float rate) {
+            String sowCode, float rate, ProjectGroup projectGroup) {
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.easymock.Capture;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.omnicrola.panoptes.data.ProjectGroup;
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.data.fileIO.PanoptesException;
 import com.omnicrola.panoptes.settings.AppPreferences;
@@ -105,13 +106,20 @@ public class SettingsFileManagerTest extends EnhancedTestCase {
 		List<WorkStatement> statements = actualSettings.statements;
 		assertEquals(7, statements.size());
 
-		assertEquals(new WorkStatement("P-2 Presales", "Menlo", "P00002", "NYE", 0), statements.get(0));
-		assertEquals(new WorkStatement("P-3 General", "Menlo", "P00003", "NYE", 0), statements.get(1));
-		assertEquals(new WorkStatement("P-5 Marketing", "Menlo", "P00005", "NYE", 0), statements.get(2));
-		assertEquals(new WorkStatement("P-7 Personnel", "Menlo", "P00007", "NYE", 0), statements.get(3));
-		assertEquals(new WorkStatement("P-10 Operations", "Menlo", "P000010", "NYE", 0), statements.get(4));
-		assertEquals(new WorkStatement("P-15 IT", "Menlo", "P000015", "NYE", 0), statements.get(5));
-		assertEquals(new WorkStatement("P-16 Facilities", "Menlo", "P000016", "NYE", 0), statements.get(6));
+		assertEquals(new WorkStatement("P-2 Presales", "Menlo", "P00002", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(0));
+		assertEquals(new WorkStatement("P-3 General", "Menlo", "P00003", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(1));
+		assertEquals(new WorkStatement("P-5 Marketing", "Menlo", "P00005", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(2));
+		assertEquals(new WorkStatement("P-7 Personnel", "Menlo", "P00007", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(3));
+		assertEquals(new WorkStatement("P-10 Operations", "Menlo", "P000010", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(4));
+		assertEquals(new WorkStatement("P-15 IT", "Menlo", "P000015", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(5));
+		assertEquals(new WorkStatement("P-16 Facilities", "Menlo", "P000016", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT),
+				statements.get(6));
 
 	}
 

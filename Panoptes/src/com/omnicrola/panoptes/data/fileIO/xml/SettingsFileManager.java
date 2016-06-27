@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.omnicrola.panoptes.data.ProjectGroup;
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.data.fileIO.PanoptesException;
 import com.omnicrola.panoptes.settings.AppPreferences;
@@ -23,17 +24,19 @@ public class SettingsFileManager {
 		this.xmlFileReader = xmlFileReader;
 	}
 
+	//@formatter:off
 	private List<WorkStatement> buildDefaultWorkStatements() {
 		ArrayList<WorkStatement> workStatementList = new ArrayList<WorkStatement>();
-		workStatementList.add(new WorkStatement("P-2 Presales", "Menlo", "P00002", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-3 General", "Menlo", "P00003", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-5 Marketing", "Menlo", "P00005", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-7 Personnel", "Menlo", "P00007", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-10 Operations", "Menlo", "P000010", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-15 IT", "Menlo", "P000015", "NYE", 0));
-		workStatementList.add(new WorkStatement("P-16 Facilities", "Menlo", "P000016", "NYE", 0));
+		workStatementList.add(new WorkStatement("P-2 Presales", "Menlo", "P00002", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-3 General", "Menlo", "P00003", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-5 Marketing", "Menlo", "P00005", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-7 Personnel", "Menlo", "P00007", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-10 Operations", "Menlo", "P000010", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-15 IT", "Menlo", "P000015", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("P-16 Facilities", "Menlo", "P000016", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
 		return workStatementList;
 	}
+	//@formatter:on
 
 	public XmlSettings load() {
 		File fileSource = this.settings.getSettingsSaveLocation();
