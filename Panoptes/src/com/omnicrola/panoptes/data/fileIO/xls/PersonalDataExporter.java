@@ -14,16 +14,12 @@ public class PersonalDataExporter {
 		this.toolbox = toolbox;
 	}
 
-	private XSSFCell getCompanyCell(XSSFWorkbook workbook) {
-		return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 2, 2);
-	}
-
 	private XSSFCell getNameCell(XSSFWorkbook workbook) {
 		return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 1, 2);
 	}
 
 	private XSSFCell getWeekEndingCell(XSSFWorkbook workbook) {
-		return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 3, 2);
+		return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 2, 2);
 	}
 
 	private void writeInvoicePersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData, String fullName) {
@@ -65,13 +61,10 @@ public class PersonalDataExporter {
 	private void writeWorksheetPersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData, String fullName,
 			DateWrapper weekEnding) {
 		XSSFCell nameCell = getNameCell(workbook);
-		XSSFCell companyCell = getCompanyCell(workbook);
 		XSSFCell weekEndingCell = getWeekEndingCell(workbook);
 
-		nameCell.setCellValue(fullName);
-		companyCell.setCellValue(personalData.getCompanyName());
+		nameCell.setCellValue(fullName + " " + personalData.getCompanyName());
 		weekEndingCell.setCellValue(weekEnding.getDate());
-
 	}
 
 }
