@@ -93,8 +93,7 @@ public class TimesheetDataExporter {
 			return 0;
 		}
 
-		System.out.println("insert at position : " + insertPosition);
-		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows, true, true);
+		makeRoomForNewData(timesheet, insertPosition, numberOfNewRows);
 		XSSFRow templateRow = timesheet.getRow(insertPosition - 1);
 
 		int currentRow = insertPosition;
@@ -112,7 +111,16 @@ public class TimesheetDataExporter {
 			currentRow++;
 		}
 		writeProjectSumFormula(timesheet.getRow(currentRow - 1), projectSectionStart, currentRow);
+		removeTemplateRow(timesheet, insertPosition);
 		return numberOfNewRows;
+	}
+
+	private void makeRoomForNewData(XSSFSheet timesheet, int insertPosition, int numberOfNewRows) {
+		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows, true, true);
+	}
+
+	private void removeTemplateRow(XSSFSheet timesheet, int insertPosition) {
+		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), -1);
 	}
 
 	private void writeTimesheetRow(XSSFRow sheetRow, ExportDataRow dataRow) {
