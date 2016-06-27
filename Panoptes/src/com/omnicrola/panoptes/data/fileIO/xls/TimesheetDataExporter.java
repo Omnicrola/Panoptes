@@ -93,7 +93,7 @@ public class TimesheetDataExporter {
 			return 0;
 		}
 
-		makeRoomForNewData(timesheet, insertPosition, numberOfNewRows);
+		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows, true, true);
 		XSSFRow templateRow = timesheet.getRow(insertPosition - 1);
 
 		int currentRow = insertPosition;
@@ -113,10 +113,6 @@ public class TimesheetDataExporter {
 		writeProjectSumFormula(timesheet.getRow(currentRow - 1), projectSectionStart, currentRow);
 		removeTemplateRow(timesheet, insertPosition);
 		return numberOfNewRows;
-	}
-
-	private void makeRoomForNewData(XSSFSheet timesheet, int insertPosition, int numberOfNewRows) {
-		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows, true, true);
 	}
 
 	private void removeTemplateRow(XSSFSheet timesheet, int insertPosition) {
