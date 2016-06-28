@@ -130,7 +130,7 @@ public class SettingsFileManagerTest extends EnhancedTestCase {
 		assertEquals("", personalData.getCompanyName());
 		assertEquals("", personalData.getEmail());
 		assertEquals("", personalData.getPhone());
-		assertEquals("", personalData.getAddress());
+		assertEquals("", personalData.getStreetAddress());
 		assertEquals("", personalData.getCity());
 		assertEquals("", personalData.getState());
 		assertEquals("", personalData.getZip());

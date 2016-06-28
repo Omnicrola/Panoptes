@@ -30,7 +30,7 @@ public class PersonalDataDisplayFactory {
         JTextField firstName = this.toolbox.makeField(width, personalData.getFirstName());
         JTextField lastName = this.toolbox.makeField(width, personalData.getLastName());
 
-        JTextField address = this.toolbox.makeField(width, personalData.getAddress());
+        JTextField address = this.toolbox.makeField(width, personalData.getStreetAddress());
         JTextField city = this.toolbox.makeField(width, personalData.getCity());
         JTextField state = this.toolbox.makeField(width, personalData.getState());
         JTextField zip = this.toolbox.makeField(width, personalData.getZip());
