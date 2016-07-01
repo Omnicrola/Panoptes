@@ -10,45 +10,36 @@ import com.omnicrola.panoptes.settings.PersonalData;
 
 public class PersonalDataSaveListener implements ActionListener {
 
-    private final DataController controller;
-    private final JTextField firstNameField;
-    private final JTextField addressField;
-    private final JTextField cityField;
-    private final JTextField zipField;
-    private final JTextField phoneField;
-    private final JTextField emailField;
-    private final JTextField lastNameField;
-    private final JTextField stateField;
+	private final DataController controller;
+	private PersonalDataDisplay personalDataDisplay;
 
-    public PersonalDataSaveListener(DataController controller, JTextField firstName,
-            JTextField lastName, JTextField address, JTextField city, JTextField state,
-            JTextField zip, JTextField phone, JTextField email) {
-        this.controller = controller;
-        this.firstNameField = firstName;
-        this.lastNameField = lastName;
-        this.addressField = address;
-        this.cityField = city;
-        this.stateField = state;
-        this.zipField = zip;
-        this.phoneField = phone;
-        this.emailField = email;
-    }
+	public PersonalDataSaveListener(DataController controller, PersonalDataDisplay personalDataDisplay) {
+		this.controller = controller;
+		this.personalDataDisplay = personalDataDisplay;
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        PersonalData personalData = new PersonalData();
-        personalData.setFirstName(this.firstNameField.getText());
-        personalData.setLastName(this.lastNameField.getText());
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		PersonalData personalData = new PersonalData();
+		personalData.setFirstName(getText(PersonalDataDisplay.FIRST_NAME));
+		personalData.setLastName(getText(PersonalDataDisplay.LAST_NAME));
+		personalData.setCompanyName(getText(PersonalDataDisplay.COMPANY_NAME));
 
-        personalData.setAddress(this.addressField.getText());
-        personalData.setCity(this.cityField.getText());
-        personalData.setState(this.stateField.getText());
-        personalData.setZip(this.zipField.getText());
+		personalData.setAddress(getText(PersonalDataDisplay.ADDRESS));
+		personalData.setCity(getText(PersonalDataDisplay.CITY));
+		personalData.setState(getText(PersonalDataDisplay.STATE));
+		personalData.setZip(getText(PersonalDataDisplay.ZIP));
 
-        personalData.setPhone(this.phoneField.getText());
-        personalData.setEmail(this.emailField.getText());
+		personalData.setPhone(getText(PersonalDataDisplay.PHONE));
+		personalData.setEmail(getText(PersonalDataDisplay.EMAIL));
 
-        this.controller.setPersonalData(personalData);
-    }
+		this.controller.setPersonalData(personalData);
+		this.personalDataDisplay.closeDisplay();
+	}
+
+	private String getText(String componentName) {
+		JTextField textField = this.personalDataDisplay.getNamedComponent(componentName);
+		return textField.getText();
+	}
 
 }

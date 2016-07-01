@@ -106,7 +106,7 @@ public class MenuFactory {
 				actionCommand);
 
 		OpenPersonalDataDisplayCommand openPersonalDataDisplayCommand = new OpenPersonalDataDisplayCommand(
-				new PersonalDataDisplayFactory(controller, dialogFactoryToolbox));
+				new PersonalDataDisplayFactory(controller));
 		JMenuItem personalDataItem = this.menuItemFactory.createMenuItemWithHotkey("Personal Data", KeyEvent.VK_P,
 				openPersonalDataDisplayCommand);
 
