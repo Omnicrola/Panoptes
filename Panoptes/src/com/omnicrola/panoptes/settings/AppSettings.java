@@ -30,13 +30,13 @@ public class AppSettings {
 	private static final String[] TIMES = buildTimes();
 	private static final String[] ROLES = new String[] { "DEV", "HTA", "QA", "PM" };
 	private static final String[] DAYS = new String[] { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday",
-			"Thursday", "Friday" };
+		"Thursday", "Friday" };
 	private static final String[] DAYS_SHORT = new String[] { "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri" };
 
 	private static final String SETTINGS_FILE_LOCATION = "panoptes.settings.xml";
 
 	private static final String ABOUT_TEXT = "<h2>Panoptes Invoice Assistant</h2><br/>" + "Version "
-			+ APPLICATION_VERSION + "<br/>" + "(c) 2016 Eric Schreffler<br/>" + "www.omnicrola.com" + "<br/>&nbsp<br/>"
+			+ APPLICATION_VERSION + "<br/>" + "(c) 2017 Eric Schreffler<br/>" + "www.omnicrola.com" + "<br/>&nbsp<br/>"
 			+ "Comments? Suggestions? Bribes accepted in the form of baked goods and/or beer.";
 
 	private static String[] buildTimes() {

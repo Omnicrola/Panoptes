@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,10 +22,10 @@ import com.omnicrola.panoptes.data.fileIO.PanoptesException;
 
 public class ExcelExporter implements IFileWriter {
 
-	private static final String INVOICE_TEMPLATE_FILE = "/resources/invoiceTemplate.xlsx";
+	private static final String INVOICE_TEMPLATE_FILE = "/resources/InvoiceTemplate.xlsx";
 
 	static final char[] ALPHANUMERIC = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-		'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
 	static final int TIMESHEET_BILLABLE_ROW_INSERT_POSITION = 8;
 	static final int TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION = 13;
@@ -34,21 +33,18 @@ public class ExcelExporter implements IFileWriter {
 
 	static final int INVOICE_ROW_INSERTION_POSITION = 17;
 	static final int SHEET_TIMESHEET = 0;
-	static final int SHEET_INVOICE = 1;
 
 	private final ExportModelBuilder exportModelBuilder;
 	private final DataController controller;
 	private final PersonalDataExporter personalDataExporter;
 	private final TimesheetDataExporter dataExporter;
-	private final InvoiceExporter invoiceExporter;
 
 	public ExcelExporter(DataController controller, ExportModelBuilder exportModelBuilder,
-			PersonalDataExporter personalDataWriter, TimesheetDataExporter dataExporter, InvoiceExporter invoiceExporter) {
+			PersonalDataExporter personalDataWriter, TimesheetDataExporter dataExporter) {
 		this.controller = controller;
 		this.exportModelBuilder = exportModelBuilder;
 		this.personalDataExporter = personalDataWriter;
 		this.dataExporter = dataExporter;
-		this.invoiceExporter = invoiceExporter;
 	}
 
 	private void actuallySaveFile(File destination, XSSFWorkbook workbook) throws PanoptesException {
@@ -105,11 +101,8 @@ public class ExcelExporter implements IFileWriter {
 		if (exportList.isEmpty()) {
 			throw new PanoptesException("No data to save!");
 		} else {
-			HashMap<String, InvoiceRow> invoiceRows = this.exportModelBuilder.buildInvoiceRows(workbook, exportList);
-
 			this.personalDataExporter.writePersonalData(workbook, this.controller.getPersonalData(), weekEnding);
 			this.dataExporter.writeTimesheetData(workbook, exportList);
-			this.invoiceExporter.writeInvoiceData(workbook.getSheetAt(SHEET_INVOICE), invoiceRows);
 
 			refreshFormulas(workbook);
 			actuallySaveFile(destination, workbook);

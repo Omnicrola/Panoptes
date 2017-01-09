@@ -14,7 +14,6 @@ import com.omnicrola.panoptes.data.fileIO.FileDataWriter;
 import com.omnicrola.panoptes.data.fileIO.XmlFileFilter;
 import com.omnicrola.panoptes.data.fileIO.xls.ExcelExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.ExportModelBuilder;
-import com.omnicrola.panoptes.data.fileIO.xls.InvoiceExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.PersonalDataExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.TimesheetDataExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.XlsFileFilter;
@@ -129,10 +128,9 @@ public class MenuFactory {
 		XlsUtilityToolbox toolbox = new XlsUtilityToolbox();
 		ExportModelBuilder exportModelBuilder = new ExportModelBuilder(controller);
 		PersonalDataExporter personalDataWriter = new PersonalDataExporter(toolbox);
-		InvoiceExporter invoiceExporter = new InvoiceExporter(toolbox);
 
 		ExcelExporter excelExporter = new ExcelExporter(controller, exportModelBuilder, personalDataWriter,
-				new TimesheetDataExporter(toolbox), invoiceExporter);
+				new TimesheetDataExporter(toolbox));
 
 		return new ExportCommandListener(controller, fileChooser, mainFrame, excelExporter, this.appSettings);
 	}
