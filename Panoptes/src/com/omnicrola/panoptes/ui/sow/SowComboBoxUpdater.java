@@ -7,24 +7,23 @@ import com.omnicrola.panoptes.ui.listener.ISowViewUpdater;
 
 public class SowComboBoxUpdater implements ISowViewUpdater {
 
-    private final SelfSortingComboBoxModel<WorkStatement> selfSortingModel;
+	private final SelfSortingComboBoxModel<WorkStatement> selfSortingModel;
 
-    public SowComboBoxUpdater(SelfSortingComboBoxModel<WorkStatement> selfSortingModel) {
-        this.selfSortingModel = selfSortingModel;
-    }
+	public SowComboBoxUpdater(SelfSortingComboBoxModel<WorkStatement> selfSortingModel) {
+		this.selfSortingModel = selfSortingModel;
+	}
 
-    @Override
-    public void currentSelectionChanged(String projectName, String projectCode, String client,
-            String sowCode, float rate, ProjectGroup projectGroup) {
-    }
+	@Override
+	public void currentSelectionChanged(String projectName, String projectCode, String client, ProjectGroup projectGroup) {
+	}
 
-    @Override
-    public void statementAdded(WorkStatement workStatement) {
-        this.selfSortingModel.addElement(workStatement);
-    }
+	@Override
+	public void statementAdded(WorkStatement workStatement) {
+		this.selfSortingModel.addElement(workStatement);
+	}
 
-    @Override
-    public void statementRemoved(WorkStatement workStatement) {
-        this.selfSortingModel.removeElement(workStatement);
-    }
+	@Override
+	public void statementRemoved(WorkStatement workStatement) {
+		this.selfSortingModel.removeElement(workStatement);
+	}
 }

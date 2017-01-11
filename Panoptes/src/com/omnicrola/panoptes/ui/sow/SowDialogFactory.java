@@ -110,22 +110,18 @@ public class SowDialogFactory {
 		JTextField projectNameField = this.toolbox.makeField(20);
 		JTextField clientField = this.toolbox.makeField(20);
 		JTextField projectCodeField = this.toolbox.makeField(20);
-		JTextField sowField = this.toolbox.makeField(20);
-		JFormattedTextField rateField = createNumericTextField();
 		JComboBox<ProjectGroup> projectComboBox = createProjectGroupSelector();
 
 		SowTextFieldUpdater sowTextFieldViewUpdater = new SowTextFieldUpdater(projectNameField, clientField,
-				projectCodeField, sowField, rateField, projectComboBox);
+				projectCodeField, projectComboBox);
 		sowModelPresenter.addView(sowTextFieldViewUpdater);
 
 		ActionListener saveButtonActionListener = new SowSaveButtonActionListener(sowModelPresenter, projectNameField,
-				clientField, projectCodeField, sowField, rateField, projectComboBox);
+				clientField, projectCodeField, projectComboBox);
 
 		rightPanel.add(projectNameField);
 		rightPanel.add(clientField);
 		rightPanel.add(projectCodeField);
-		rightPanel.add(sowField);
-		rightPanel.add(rateField);
 		rightPanel.add(projectComboBox);
 
 		return saveButtonActionListener;

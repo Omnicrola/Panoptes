@@ -27,11 +27,11 @@ public class SettingsFileManager {
 	//@formatter:off
 	private List<WorkStatement> buildDefaultWorkStatements() {
 		ArrayList<WorkStatement> workStatementList = new ArrayList<WorkStatement>();
-		workStatementList.add(new WorkStatement("PRESALES", "Menlo", "PRESALES", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("MARKETING", "Menlo", "MARKETING", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("PERSONNEL", "Menlo", "PERSONNEL", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("A/O/F", "Menlo", "A/O/F", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("IT SUPPORT", "Menlo", "IT", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("PRESALES", "Menlo", "PRESALES",  ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("MARKETING", "Menlo", "MARKETING", ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("PERSONNEL", "Menlo", "PERSONNEL", ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("A/O/F", "Menlo", "A/O/F",  ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("IT SUPPORT", "Menlo", "IT", ProjectGroup.INTERNAL_SUPPORT));
 		return workStatementList;
 	}
 	//@formatter:on

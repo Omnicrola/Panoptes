@@ -150,7 +150,7 @@ public class TimesheetDataExporter {
 		int rowIndex = sheetRow.getRowNum() + 1;
 		sheetRow.getCell(12).setCellFormula(
 				"SUM(" + TIMESHEET_ROW_SUM_COLUMN_INDEX_START + rowIndex + ":" + TIMESHEET_ROW_SUM_COLUMN_INDEX_END
-						+ rowIndex + ")");
+				+ rowIndex + ")");
 	}
 
 }

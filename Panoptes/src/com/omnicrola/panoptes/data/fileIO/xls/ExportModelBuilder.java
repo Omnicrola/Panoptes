@@ -78,6 +78,8 @@ public class ExportModelBuilder {
 		WorkStatement workStatement = WorkStatement.EMPTY;
 		if (projectNameMap.containsKey(project)) {
 			workStatement = projectNameMap.get(project);
+		} else {
+			System.out.println("Cant find statement for project: " + project);
 		}
 
 		String card = timeBlock.getTimeData().getCard();
