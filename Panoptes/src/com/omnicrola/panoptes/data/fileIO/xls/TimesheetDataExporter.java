@@ -14,8 +14,8 @@ import com.omnicrola.panoptes.data.ProjectGroup;
 
 public class TimesheetDataExporter {
 
-	private static final int INDEX_OF_TOTALS_ROW = 23;
-	private static final int TIMESHEET_PROJECT_SUM_COLUMN = 12;
+	private static final int INDEX_OF_TOTALS_ROW = 14;
+	private static final int TIMESHEET_PROJECT_SUM_COLUMN = 13;
 	private final XlsUtilityToolbox toolbox;
 
 	public TimesheetDataExporter(XlsUtilityToolbox toolbox) {
@@ -34,7 +34,8 @@ public class TimesheetDataExporter {
 
 	private void reWriteVerticalSumFormula(XSSFRow totalsRow, int index, int start, int end) {
 		char letter = ExcelExporter.ALPHANUMERIC[index];
-		totalsRow.getCell(index).setCellFormula("SUM(" + letter + start + ":" + letter + end + ")");
+		XSSFCell cell = totalsRow.getCell(index);
+		cell.setCellFormula("SUM(" + letter + start + ":" + letter + end + ")");
 	}
 
 	private void setCellValue(XSSFRow row, int columnIndex, float floatValue, boolean clearIfZero) {

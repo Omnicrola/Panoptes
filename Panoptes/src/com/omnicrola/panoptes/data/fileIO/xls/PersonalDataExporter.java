@@ -31,7 +31,7 @@ public class PersonalDataExporter {
 		XSSFCell nameCell = getNameCell(workbook);
 		XSSFCell weekEndingCell = getWeekEndingCell(workbook);
 
-		nameCell.setCellValue(personalData.getFullName() + " " + personalData.getCompanyName());
+		nameCell.setCellValue(personalData.getFullName());
 		weekEndingCell.setCellValue(weekEnding.getDate());
 	}
 

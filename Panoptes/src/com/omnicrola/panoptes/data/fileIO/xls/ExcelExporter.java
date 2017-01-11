@@ -27,9 +27,9 @@ public class ExcelExporter implements IFileWriter {
 	static final char[] ALPHANUMERIC = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
 			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
-	static final int TIMESHEET_BILLABLE_ROW_INSERT_POSITION = 8;
-	static final int TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION = 13;
-	static final int TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION = 19;
+	static final int TIMESHEET_BILLABLE_ROW_INSERT_POSITION = 7;
+	static final int TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION = 11;
+	static final int TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION = 11;
 
 	static final int INVOICE_ROW_INSERTION_POSITION = 17;
 	static final int SHEET_TIMESHEET = 0;
