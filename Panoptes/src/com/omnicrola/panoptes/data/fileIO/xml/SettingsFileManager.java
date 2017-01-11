@@ -27,13 +27,11 @@ public class SettingsFileManager {
 	//@formatter:off
 	private List<WorkStatement> buildDefaultWorkStatements() {
 		ArrayList<WorkStatement> workStatementList = new ArrayList<WorkStatement>();
-		workStatementList.add(new WorkStatement("P-2 Presales", "Menlo", "P00002", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-3 General", "Menlo", "P00003", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-5 Marketing", "Menlo", "P00005", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-7 Personnel", "Menlo", "P00007", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-10 Operations", "Menlo", "P000010", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-15 IT", "Menlo", "P000015", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
-		workStatementList.add(new WorkStatement("P-16 Facilities", "Menlo", "P000016", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("PRESALES", "Menlo", "PRESALES", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("MARKETING", "Menlo", "MARKETING", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("PERSONNEL", "Menlo", "PERSONNEL", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("A/O/F", "Menlo", "A/O/F", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
+		workStatementList.add(new WorkStatement("IT SUPPORT", "Menlo", "IT", "NYE", 0, ProjectGroup.INTERNAL_SUPPORT));
 		return workStatementList;
 	}
 	//@formatter:on
