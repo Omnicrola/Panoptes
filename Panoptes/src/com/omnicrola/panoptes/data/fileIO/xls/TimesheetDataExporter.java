@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,6 +15,9 @@ import com.omnicrola.panoptes.data.ProjectGroup;
 
 public class TimesheetDataExporter {
 
+	private static final String TIMESHEET_ROW_SUM_COLUMN_INDEX_START = "F";
+	private static final String TIMESHEET_ROW_SUM_COLUMN_INDEX_END = "L";
+	private static final String PROJECT_SUM_COLUMN_INDEX = "M";
 	private static final int INDEX_OF_TOTALS_ROW = 14;
 	private static final int TIMESHEET_PROJECT_SUM_COLUMN = 13;
 	private final XlsUtilityToolbox toolbox;
@@ -61,7 +65,8 @@ public class TimesheetDataExporter {
 
 	private void writeProjectSumFormula(XSSFRow lastRowOfProject, int projectSectionStart, int projectSectionEnd) {
 		XSSFCell sumCell = lastRowOfProject.getCell(TIMESHEET_PROJECT_SUM_COLUMN);
-		sumCell.setCellFormula("SUM(L" + projectSectionStart + ":L" + projectSectionEnd + ")");
+		sumCell.setCellFormula("SUM(" + PROJECT_SUM_COLUMN_INDEX + projectSectionStart + ":" + PROJECT_SUM_COLUMN_INDEX
+				+ projectSectionEnd + ")");
 	}
 
 	public void writeTimesheetData(XSSFWorkbook workbook, List<ExportDataRow> exportList) {
@@ -108,6 +113,7 @@ public class TimesheetDataExporter {
 				projectSectionStart = currentRow + 1;
 			} else {
 				writeTimesheetRow(sheetRow, exportRow);
+				mergeDescriptionCells(timesheet, currentRow);
 			}
 			currentRow++;
 		}
@@ -116,26 +122,35 @@ public class TimesheetDataExporter {
 		return numberOfNewRows;
 	}
 
+	private void mergeDescriptionCells(XSSFSheet timesheet, int currentRow) {
+		timesheet.addMergedRegion(new CellRangeAddress(currentRow, currentRow, 3, 4));
+	}
+
 	private void removeTemplateRow(XSSFSheet timesheet, int insertPosition) {
 		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), -1);
 	}
 
 	private void writeTimesheetRow(XSSFRow sheetRow, ExportDataRow dataRow) {
 
+		// column 0 is empty
 		setCellValue(sheetRow, 1, dataRow.getWorkStatement().getClient());
 		setCellValue(sheetRow, 2, dataRow.getWorkStatement().getProjectCode());
 		setCellValue(sheetRow, 3, dataRow.getDescription());
 
-		setCellValue(sheetRow, 4, dataRow.getDay(0), true);
-		setCellValue(sheetRow, 5, dataRow.getDay(1), true);
-		setCellValue(sheetRow, 6, dataRow.getDay(2), true);
-		setCellValue(sheetRow, 7, dataRow.getDay(3), true);
-		setCellValue(sheetRow, 8, dataRow.getDay(4), true);
-		setCellValue(sheetRow, 9, dataRow.getDay(5), true);
-		setCellValue(sheetRow, 10, dataRow.getDay(6), true);
+		// column 4 is merged with column 3
+
+		setCellValue(sheetRow, 5, dataRow.getDay(0), true);
+		setCellValue(sheetRow, 6, dataRow.getDay(1), true);
+		setCellValue(sheetRow, 7, dataRow.getDay(2), true);
+		setCellValue(sheetRow, 8, dataRow.getDay(3), true);
+		setCellValue(sheetRow, 9, dataRow.getDay(4), true);
+		setCellValue(sheetRow, 10, dataRow.getDay(5), true);
+		setCellValue(sheetRow, 11, dataRow.getDay(6), true);
 
 		int rowIndex = sheetRow.getRowNum() + 1;
-		sheetRow.getCell(11).setCellFormula("SUM(E" + rowIndex + ":K" + rowIndex + ")");
+		sheetRow.getCell(12).setCellFormula(
+				"SUM(" + TIMESHEET_ROW_SUM_COLUMN_INDEX_START + rowIndex + ":" + TIMESHEET_ROW_SUM_COLUMN_INDEX_END
+						+ rowIndex + ")");
 	}
 
 }

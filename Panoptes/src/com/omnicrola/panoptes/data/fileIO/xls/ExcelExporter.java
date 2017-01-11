@@ -25,7 +25,7 @@ public class ExcelExporter implements IFileWriter {
 	private static final String INVOICE_TEMPLATE_FILE = "/resources/InvoiceTemplate.xlsx";
 
 	static final char[] ALPHANUMERIC = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+		'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
 	static final int TIMESHEET_BILLABLE_ROW_INSERT_POSITION = 7;
 	static final int TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION = 11;
