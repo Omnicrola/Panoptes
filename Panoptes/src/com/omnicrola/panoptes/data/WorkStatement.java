@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WorkStatement {
 
-	public static final WorkStatement EMPTY = new WorkStatement("None", "", "", ProjectGroup.CLIENT_BILLABLE);
+	public static final WorkStatement EMPTY = new WorkStatement("None", "", "", ProjectGroup.NONE);
 
 	private String projectName;
 	private String client;
@@ -17,13 +17,14 @@ public class WorkStatement {
 		this.projectName = "";
 		this.client = "";
 		this.projectCode = "";
-		this.projectGroup = ProjectGroup.CLIENT_BILLABLE;
+		this.projectGroup = ProjectGroup.NONE;
 	}
 
 	public WorkStatement(String projectName, String client, String projectCode, ProjectGroup projectGroup) {
 		this.projectName = projectName;
 		this.client = client;
 		this.projectCode = projectCode;
+		this.projectGroup = projectGroup;
 	}
 
 	public String getClient() {

@@ -1,10 +1,9 @@
 package com.omnicrola.panoptes.data.fileIO.xls;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -15,45 +14,21 @@ import com.omnicrola.panoptes.data.ProjectGroup;
 
 public class TimesheetDataExporter {
 
-	private static final String TIMESHEET_ROW_SUM_COLUMN_INDEX_START = "F";
-	private static final String TIMESHEET_ROW_SUM_COLUMN_INDEX_END = "L";
 	private static final String PROJECT_SUM_COLUMN_INDEX = "M";
-	private static final int INDEX_OF_TOTALS_ROW = 14;
 	private static final int TIMESHEET_PROJECT_SUM_COLUMN = 13;
+
 	private final XlsUtilityToolbox toolbox;
+	private ExportRowGrouper exportRowGrouper;
+	private TimesheetRowWriter timesheetRowWriter;
+	private VerticalSumFormulaWriter verticalSumFormulaWriter;
 
-	public TimesheetDataExporter(XlsUtilityToolbox toolbox) {
+	public TimesheetDataExporter(XlsUtilityToolbox toolbox, ExportRowGrouper exportRowGrouper,
+			TimesheetRowWriter timesheetRowWriter, VerticalSumFormulaWriter verticalSumFormulaWriter) {
 		this.toolbox = toolbox;
-	}
+		this.exportRowGrouper = exportRowGrouper;
+		this.timesheetRowWriter = timesheetRowWriter;
+		this.verticalSumFormulaWriter = verticalSumFormulaWriter;
 
-	private void reWriteSumFormulas(XSSFWorkbook workbook, int numberOfNewRows) {
-		XSSFSheet timesheet = workbook.getSheetAt(0);
-		XSSFRow totalsRow = timesheet.getRow(INDEX_OF_TOTALS_ROW + numberOfNewRows);
-		int start = ExcelExporter.TIMESHEET_BILLABLE_ROW_INSERT_POSITION;
-		int end = start + numberOfNewRows;
-		for (int i = 4; i <= 12; i++) {
-			reWriteVerticalSumFormula(totalsRow, i, start, end);
-		}
-	}
-
-	private void reWriteVerticalSumFormula(XSSFRow totalsRow, int index, int start, int end) {
-		char letter = ExcelExporter.ALPHANUMERIC[index];
-		XSSFCell cell = totalsRow.getCell(index);
-		cell.setCellFormula("SUM(" + letter + start + ":" + letter + end + ")");
-	}
-
-	private void setCellValue(XSSFRow row, int columnIndex, float floatValue, boolean clearIfZero) {
-		XSSFCell cell = row.getCell(columnIndex, Row.CREATE_NULL_AS_BLANK);
-		if (clearIfZero && floatValue == 0.0) {
-			cell.setCellType(Cell.CELL_TYPE_BLANK);
-		} else {
-			cell.setCellValue(floatValue);
-		}
-	}
-
-	private void setCellValue(XSSFRow row, int columnIndex, String stringValue) {
-		XSSFCell cell = row.getCell(columnIndex, Row.CREATE_NULL_AS_BLANK);
-		cell.setCellValue(stringValue);
 	}
 
 	private void writeEmptyRow(XSSFRow sheetRow, ExportDataRow exportRow) {
@@ -73,24 +48,17 @@ public class TimesheetDataExporter {
 
 		XSSFSheet timesheet = workbook.getSheetAt(ExcelExporter.SHEET_TIMESHEET);
 
-		List<ExportDataRow> billableRows = filterProjectGroup(exportList, ProjectGroup.CLIENT_BILLABLE);
-		List<ExportDataRow> internalProjectRows = filterProjectGroup(exportList, ProjectGroup.INTERNAL_PROJECT);
-		List<ExportDataRow> internalSupportRows = filterProjectGroup(exportList, ProjectGroup.INTERNAL_SUPPORT);
+		Map<ProjectGroup, List<ExportDataRow>> groupedRows = this.exportRowGrouper.groupRows(exportList);
 
 		int numberOfNewRows = 0;
-		numberOfNewRows += insertRowsForGroup(internalSupportRows, timesheet,
+		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.INTERNAL_SUPPORT), timesheet,
 				ExcelExporter.TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION);
-		numberOfNewRows += insertRowsForGroup(internalProjectRows, timesheet,
+		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.INTERNAL_PROJECT), timesheet,
 				ExcelExporter.TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION);
-		numberOfNewRows += insertRowsForGroup(billableRows, timesheet,
+		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.CLIENT_BILLABLE), timesheet,
 				ExcelExporter.TIMESHEET_BILLABLE_ROW_INSERT_POSITION);
 
-		reWriteSumFormulas(workbook, numberOfNewRows);
-	}
-
-	private List<ExportDataRow> filterProjectGroup(List<ExportDataRow> exportList, ProjectGroup projectGroup) {
-		return exportList.stream().filter(r -> projectGroup.equals(r.getWorkStatement().getProjectGroup()))
-				.collect(Collectors.toList());
+		this.verticalSumFormulaWriter.reWriteSumFormulas(workbook, numberOfNewRows);
 	}
 
 	private int insertRowsForGroup(List<ExportDataRow> exportList, XSSFSheet timesheet, int insertPosition) {
@@ -112,7 +80,7 @@ public class TimesheetDataExporter {
 				writeEmptyRow(sheetRow, exportRow);
 				projectSectionStart = currentRow + 1;
 			} else {
-				writeTimesheetRow(sheetRow, exportRow);
+				this.timesheetRowWriter.writeTimesheetRow(sheetRow, exportRow);
 				mergeDescriptionCells(timesheet, currentRow);
 			}
 			currentRow++;
@@ -128,29 +96,6 @@ public class TimesheetDataExporter {
 
 	private void removeTemplateRow(XSSFSheet timesheet, int insertPosition) {
 		timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), -1);
-	}
-
-	private void writeTimesheetRow(XSSFRow sheetRow, ExportDataRow dataRow) {
-
-		// column 0 is empty
-		setCellValue(sheetRow, 1, dataRow.getWorkStatement().getClient());
-		setCellValue(sheetRow, 2, dataRow.getWorkStatement().getProjectCode());
-		setCellValue(sheetRow, 3, dataRow.getDescription());
-
-		// column 4 is merged with column 3
-
-		setCellValue(sheetRow, 5, dataRow.getDay(0), true);
-		setCellValue(sheetRow, 6, dataRow.getDay(1), true);
-		setCellValue(sheetRow, 7, dataRow.getDay(2), true);
-		setCellValue(sheetRow, 8, dataRow.getDay(3), true);
-		setCellValue(sheetRow, 9, dataRow.getDay(4), true);
-		setCellValue(sheetRow, 10, dataRow.getDay(5), true);
-		setCellValue(sheetRow, 11, dataRow.getDay(6), true);
-
-		int rowIndex = sheetRow.getRowNum() + 1;
-		sheetRow.getCell(12).setCellFormula(
-				"SUM(" + TIMESHEET_ROW_SUM_COLUMN_INDEX_START + rowIndex + ":" + TIMESHEET_ROW_SUM_COLUMN_INDEX_END
-				+ rowIndex + ")");
 	}
 
 }
