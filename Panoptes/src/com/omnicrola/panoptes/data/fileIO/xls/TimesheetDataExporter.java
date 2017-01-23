@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.data.fileIO.xls;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,12 +51,13 @@ public class TimesheetDataExporter {
 
 		Map<ProjectGroup, List<ExportDataRow>> groupedRows = this.exportRowGrouper.groupRows(exportList);
 
-		int numberOfNewRows = 0;
-		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.INTERNAL_SUPPORT), timesheet,
-				ExcelExporter.TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION);
-		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.INTERNAL_PROJECT), timesheet,
-				ExcelExporter.TIMESHEET_INTERNAL_PROJECT_ROW_INSERT_POSITION);
-		numberOfNewRows += insertRowsForGroup(groupedRows.get(ProjectGroup.CLIENT_BILLABLE), timesheet,
+		int numberOfNewRows = exportList.size();
+
+		List<ExportDataRow> internalProjectRows = new ArrayList<>(groupedRows.get(ProjectGroup.INTERNAL_PROJECT));
+		internalProjectRows.addAll(groupedRows.get(ProjectGroup.INTERNAL_SUPPORT));
+		insertRowsForGroup(internalProjectRows, timesheet, ExcelExporter.TIMESHEET_INTERNAL_SUPPORT_ROW_INSERT_POSITION);
+
+		insertRowsForGroup(groupedRows.get(ProjectGroup.CLIENT_BILLABLE), timesheet,
 				ExcelExporter.TIMESHEET_BILLABLE_ROW_INSERT_POSITION);
 
 		this.verticalSumFormulaWriter.reWriteSumFormulas(workbook, numberOfNewRows);

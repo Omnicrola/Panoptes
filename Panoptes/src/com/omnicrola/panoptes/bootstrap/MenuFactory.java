@@ -14,8 +14,11 @@ import com.omnicrola.panoptes.data.fileIO.FileDataWriter;
 import com.omnicrola.panoptes.data.fileIO.XmlFileFilter;
 import com.omnicrola.panoptes.data.fileIO.xls.ExcelExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.ExportModelBuilder;
+import com.omnicrola.panoptes.data.fileIO.xls.ExportRowGrouper;
 import com.omnicrola.panoptes.data.fileIO.xls.PersonalDataExporter;
 import com.omnicrola.panoptes.data.fileIO.xls.TimesheetDataExporter;
+import com.omnicrola.panoptes.data.fileIO.xls.TimesheetRowWriter;
+import com.omnicrola.panoptes.data.fileIO.xls.VerticalSumFormulaWriter;
 import com.omnicrola.panoptes.data.fileIO.xls.XlsFileFilter;
 import com.omnicrola.panoptes.data.fileIO.xls.XlsUtilityToolbox;
 import com.omnicrola.panoptes.settings.AppSettings;
@@ -130,7 +133,8 @@ public class MenuFactory {
 		PersonalDataExporter personalDataWriter = new PersonalDataExporter(toolbox);
 
 		ExcelExporter excelExporter = new ExcelExporter(controller, exportModelBuilder, personalDataWriter,
-				new TimesheetDataExporter(toolbox));
+				new TimesheetDataExporter(toolbox, new ExportRowGrouper(), new TimesheetRowWriter(),
+						new VerticalSumFormulaWriter()));
 
 		return new ExportCommandListener(controller, fileChooser, mainFrame, excelExporter, this.appSettings);
 	}
