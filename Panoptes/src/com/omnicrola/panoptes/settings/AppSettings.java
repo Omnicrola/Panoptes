@@ -11,7 +11,7 @@ public class AppSettings {
 	public static final AppSettings INSTANCE = new AppSettings();
 
 	private static final String APPLICATION_TITLE = "Panoptes";
-	private static final String APPLICATION_VERSION = "1.3.1";
+	private static final String APPLICATION_VERSION = "1.4.0";
 
 	private static int DAYS_IN_WEEK = 7;
 	private static int BLOCK_IN_MINUTES = 15;
@@ -30,7 +30,7 @@ public class AppSettings {
 	private static final String[] TIMES = buildTimes();
 	private static final String[] ROLES = new String[] { "DEV", "HTA", "QA", "PM" };
 	private static final String[] DAYS = new String[] { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday",
-		"Thursday", "Friday" };
+			"Thursday", "Friday" };
 	private static final String[] DAYS_SHORT = new String[] { "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri" };
 
 	private static final String SETTINGS_FILE_LOCATION = "panoptes.settings.xml";
