@@ -36,7 +36,6 @@ public class ExportModelBuilder {
 
 		List<ExportDataRow> dataList = new ArrayList<ExportDataRow>(rowMap.values());
 		Collections.sort(dataList, new ExportRowComparator());
-		insertBlankRows(dataList);
 		return dataList;
 	}
 
@@ -107,25 +106,4 @@ public class ExportModelBuilder {
 		return exportDataRow;
 	}
 
-	private void insertBlankRows(List<ExportDataRow> dataList) {
-		List<Integer> list = new ArrayList<>();
-
-		if (!dataList.isEmpty()) {
-			String lastProject = dataList.get(0).getWorkStatement().getProjectName();
-
-			for (ExportDataRow exportDataRow : dataList) {
-				String projectName = exportDataRow.getWorkStatement().getProjectName();
-				if (!projectName.equals(lastProject)) {
-					lastProject = projectName;
-					list.add(dataList.indexOf(exportDataRow));
-				}
-			}
-
-			int arrayEnd = list.size() - 1;
-			for (int i = arrayEnd; i >= 0; i--) {
-				Integer index = list.get(i);
-				dataList.add(index, ExportDataRow.EMPTY);
-			}
-		}
-	}
 }

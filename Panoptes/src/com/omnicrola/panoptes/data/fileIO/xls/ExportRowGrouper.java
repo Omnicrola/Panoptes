@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.omnicrola.panoptes.data.ProjectGroup;
 
@@ -13,6 +14,7 @@ public class ExportRowGrouper {
 		HashMap<ProjectGroup, List<ExportDataRow>> groupedRows = buildEmptyListsForEachGroup();
 		sortIntoGroups(exportList, groupedRows);
 		putRowsWithNoHomeIntoInternalProjects(groupedRows);
+		insertBlankRows(groupedRows);
 		return groupedRows;
 	}
 
@@ -38,6 +40,38 @@ public class ExportRowGrouper {
 		internalRows.add(ExportDataRow.EMPTY);
 		internalRows.addAll(rowsWithNoHome);
 		rowsWithNoHome.clear();
+	}
+
+	private void insertBlankRows(HashMap<ProjectGroup, List<ExportDataRow>> groupedRows) {
+		for (Entry<ProjectGroup, List<ExportDataRow>> entry : groupedRows.entrySet()) {
+			insertBlankRows(entry.getValue());
+		}
+	}
+
+	private void insertBlankRows(List<ExportDataRow> dataList) {
+		List<Integer> indexesWhereProjectsChange = new ArrayList<>();
+
+		if (!dataList.isEmpty()) {
+			String lastProject = dataList.get(0).getWorkStatement().getProjectName();
+
+			for (ExportDataRow exportDataRow : dataList) {
+				String projectName = exportDataRow.getWorkStatement().getProjectName();
+				if (!projectName.equals(lastProject)) {
+					lastProject = projectName;
+					indexesWhereProjectsChange.add(dataList.indexOf(exportDataRow));
+				}
+			}
+
+			addBlankRowFromBottomUp(dataList, indexesWhereProjectsChange);
+		}
+	}
+
+	private void addBlankRowFromBottomUp(List<ExportDataRow> dataList, List<Integer> indexesWhereProjectsChange) {
+		int arrayEnd = indexesWhereProjectsChange.size() - 1;
+		for (int i = arrayEnd; i >= 0; i--) {
+			Integer index = indexesWhereProjectsChange.get(i);
+			dataList.add(index, ExportDataRow.EMPTY);
+		}
 	}
 
 }

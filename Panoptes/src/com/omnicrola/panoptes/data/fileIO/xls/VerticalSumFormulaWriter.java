@@ -7,7 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class VerticalSumFormulaWriter {
 
-	private static final int INDEX_OF_TOTALS_ROW = 12;
+	private static final int INDEX_OF_TOTALS_ROW = 15;
 	private static final int VERTICAL_SUM_COLUMN_START = 5;
 	private static final int VERTICAL_SUM_COLUMN_END = 11;
 	private static final int GAP_BETWEEN_BILLABLE_AND_INTERNAL_SECTIONS = 3;
